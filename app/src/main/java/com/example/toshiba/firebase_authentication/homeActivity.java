@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -44,12 +43,10 @@ import static com.example.toshiba.firebase_authentication.R.id.siteurls;
 
 public class homeActivity extends AppCompatActivity {
     private FirebaseAuth auth;
-    private Button logout;
-    private ListView view_allcourses;
 
     //Dynamic array for all parsing jsoup links
-    private ArrayList<String> sitesfull = new ArrayList<>();
     private ArrayList<String> user_login = new ArrayList<>();
+
 
     //FireBase DB reference
     private DatabaseReference udatabase;
@@ -59,9 +56,6 @@ public class homeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        logout = (Button) findViewById(R.id.logout_btn);
-        view_allcourses = (ListView) findViewById(siteurls);
 
         auth = FirebaseAuth.getInstance();
 
@@ -73,16 +67,6 @@ public class homeActivity extends AppCompatActivity {
 
         //Executes bg task of retrieving info
         new FireBaseRetrieval().execute();
-
-        //Signout
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                auth.signOut();
-                finish();
-                startActivity(new Intent(homeActivity.this,MainActivity.class));
-            }
-        });
     }
 
 
@@ -167,7 +151,6 @@ public class homeActivity extends AppCompatActivity {
                         int lstart = course.indexOf("href=\"")+6;
                         int lend = course.indexOf("target")-2;
                         String CourseBaseURL = course.substring(lstart,lend);
-                        //sitesfull.add(CourseName);
 
                         //Set Objects for courses
                         courses ListCourses = new courses(CourseName,CourseBaseURL);
@@ -226,8 +209,6 @@ public class homeActivity extends AppCompatActivity {
                                     Mark = Raw.substring(mstart, mend);
                                 }
                             }
-                            sitesfull.add(Assign);
-                            sitesfull.add(Mark);
 
 
                             ListCourses.addAssignment("A"+i,Assign + ":" + Mark);
@@ -236,6 +217,7 @@ public class homeActivity extends AppCompatActivity {
                         //Adds courses object to array list UNDER user
                         CurrentUser.addCourse(ListCourses);
                         ListCourses = null;
+
                     }
                 }
 
@@ -251,13 +233,11 @@ public class homeActivity extends AppCompatActivity {
                 udatabase.updateChildren(CourseUpdates);
                 Log.d("FIRE 3-AFTER ","UPDATE-UPDATE");
 
-
-                sitesfull.add("Success");
                 CurrentUser = null;
 
 
             }catch(Exception e){
-                sitesfull.add("failure");
+
             }
             return null;
         }
@@ -266,10 +246,6 @@ public class homeActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            //Puts info to array list for viewing through array adapter and into view_list
-
-            final ArrayAdapter<String> arraycourses = new ArrayAdapter<String>(homeActivity.this,android.R.layout.simple_list_item_1,sitesfull);
-            view_allcourses.setAdapter(arraycourses);
 
         }
     }
