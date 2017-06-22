@@ -22,7 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".homeActivity"></activity>
+        <activity android:name=".homeActivity" />
+        <activity
+            android:name=".homeActivityWithMenu"
+            android:label="@string/title_activity_home_with_menu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

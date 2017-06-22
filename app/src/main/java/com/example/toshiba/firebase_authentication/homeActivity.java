@@ -38,7 +38,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import static android.R.attr.x;
 import static com.example.toshiba.firebase_authentication.R.id.assignments;
-import static com.example.toshiba.firebase_authentication.R.id.siteurls;
+//import static com.example.toshiba.firebase_authentication.R.id.siteurls;
 
 
 public class homeActivity extends AppCompatActivity {

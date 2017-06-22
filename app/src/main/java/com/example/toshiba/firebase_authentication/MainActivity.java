@@ -94,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (auth.getCurrentUser() != null){
             finish();
-            startActivity(new Intent(this,homeActivity.class));
+            //startActivity(new Intent(this,homeActivity.class));
+            startActivity(new Intent(this,homeActivityWithMenu.class));
         }
 
         //Setup Page
@@ -169,7 +170,8 @@ public class MainActivity extends AppCompatActivity {
 
                             Toast.makeText(MainActivity.this, "Successfully Logged In", Toast.LENGTH_LONG).show();
                             finish();
-                            startActivity(new Intent(MainActivity.this, homeActivity.class));
+                            //startActivity(new Intent(MainActivity.this, homeActivity.class));
+                            startActivity(new Intent(MainActivity.this,homeActivityWithMenu.class));
 
                         } else {
                             //Signs in pre-existing user
@@ -181,7 +183,8 @@ public class MainActivity extends AppCompatActivity {
                                         Toast.makeText(MainActivity.this, "Successfully Logged In", Toast.LENGTH_LONG).show();
                                         //direct to login page
                                         finish();
-                                        startActivity(new Intent(MainActivity.this, homeActivity.class));
+                                        //startActivity(new Intent(MainActivity.this, homeActivity.class));
+                                        startActivity(new Intent(MainActivity.this,homeActivityWithMenu.class));
                                     } else {
                                         Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
                                     }
