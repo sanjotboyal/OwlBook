@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.toshiba.firebase_authentication.Western.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,10 +30,10 @@ import static android.R.attr.name;
 public class homeActivityWithMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private TextView UserName;
     private TextView UserEmail;
-    //private FirebaseAuth auth;
-    //FireBase DB reference
-    private DatabaseReference udatabase;
 
+    private DatabaseReference databaseReference;
+
+    private User currUser;
 
     NavigationView navigationView = null;
     Toolbar toolbar = null;
@@ -42,8 +43,16 @@ public class homeActivityWithMenu extends AppCompatActivity implements Navigatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_with_menu);
 
-        //Set the fragment initially
+        // Retrieve User object from bundle.
+        if (savedInstanceState == null) {
+            Bundle bundle = getIntent().getExtras();
+            currUser = (User)bundle.get("CURRENT_USER");
+        }
+
+        // Set the fragment initially
         MainFragment fragment = new MainFragment();
+        fragment.setArguments(savedInstanceState);
+
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fcontainer, fragment);
         fragmentTransaction.commit();
@@ -59,8 +68,6 @@ public class homeActivityWithMenu extends AppCompatActivity implements Navigatio
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        //auth = FirebaseAuth.getInstance();
-
     }
 
     @Override
@@ -77,14 +84,10 @@ public class homeActivityWithMenu extends AppCompatActivity implements Navigatio
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present
 
-        //set current user instance
-        //final FirebaseUser User = auth.getCurrentUser();
-        //String Email = User.getEmail();
-        //int end = Email.indexOf("@");
-        //final String owl_user = Email.substring(0,end);
-
         UserName = (TextView) findViewById(R.id.User_Name);
         UserEmail = (TextView) findViewById(R.id.OwlEmail);
+
+        UserEmail.setText(currUser.getEmail());
 
         //udatabase = FirebaseDatabase.getInstance().getReference().child(User.getUid());
         /*

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.toshiba.firebase_authentication.MainActivity;
 import com.example.toshiba.firebase_authentication.R;
+import com.example.toshiba.firebase_authentication.Western.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -56,14 +57,21 @@ public class MainFragment extends Fragment {
     //FireBase DB reference
     private DatabaseReference udatabase;
 
+    private User currUser;
 
     public MainFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        // Retrieve user information.
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            currUser = (User)bundle.get("CURRENT_USER");
+            Log.d("[MainFragment]", "Successfully recieved User: " + currUser.getId());
+        }
 
         //auth = FirebaseAuth.getInstance();
 
@@ -130,7 +138,7 @@ public class MainFragment extends Fragment {
             try {
                 //Connects and parse page after login
                 Connection.Response res = Jsoup.connect("https://owl.uwo.ca/portal/relogin").data("eid",owl_user).data("pw",user_login.get(0)).method(Connection.Method.POST).execute();
-                Document document = res.parse();
+                Document document = Jsoup.connect("https://owl.uwo.ca/portal/relogin").cookies(currUser.getCookies()).get();
 
                 //Saves login cookies
                 Map<String,String>loginCookies = res.cookies();

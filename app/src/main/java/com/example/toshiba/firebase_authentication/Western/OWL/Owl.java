@@ -7,20 +7,16 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.toshiba.firebase_authentication.MainActivity;
 import com.example.toshiba.firebase_authentication.Western.User;
 import com.example.toshiba.firebase_authentication.homeActivityWithMenu;
-import com.example.toshiba.firebase_authentication.userInfo;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import java.util.Map;
 
 /**
  * Created by j3chowdh on 6/23/2017.
@@ -34,6 +30,8 @@ public class Owl extends AsyncTask<Void, Void, Boolean> {
     private ProgressDialog progressDialog;
 
     private DatabaseReference databaseReference;
+
+    private User currUser;
 
     public Owl(String id, String password, Context context) {
         this.user = id;
@@ -52,20 +50,21 @@ public class Owl extends AsyncTask<Void, Void, Boolean> {
         // Owl system connect and login
         try {
             // Performs a connection to OWL
-            Connection.Response loginForm = Jsoup.connect("https://owl.uwo.ca/portal").method(Connection.Method.GET).execute();
+            Map<String, String> cookie = Jsoup.connect("https://owl.uwo.ca/portal").method(Connection.Method.GET).execute().cookies();
             Document document = Jsoup.connect("https://owl.uwo.ca/portal/relogin")
                     .data("cookieexists", "false")
                     .data("eid", user)
                     .data("pw", pass)
-                    .cookies(loginForm.cookies())
+                    .cookies(cookie)
                     .post();
 
             // Check if user successfully logged in.
             if (document.title().contains("Home")) {
                 /* Create instance of User */
-               // User user = new User(user, pass);
+                currUser = new User(user, pass);
                 databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference.child("Users").child(user).setValue(new User(user, pass));
+                databaseReference.child("Users").child(user).setValue(currUser);
+                currUser.setCookies(cookie);
 
                 Log.d("[Owl -> doInBackground]", "Successfully added account to firebase.");
             } else {
@@ -87,6 +86,10 @@ public class Owl extends AsyncTask<Void, Void, Boolean> {
 
             // Create an intent to bring up the next activity.
             Intent intent = new Intent(ctx, homeActivityWithMenu.class);
+
+            // Pass User object to new activity.
+            intent.putExtra("CURRENT_USER", currUser);
+
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             ctx.startActivity(intent);
         } else {
