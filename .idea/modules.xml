@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FireBase_Authentication.iml" filepath="$PROJECT_DIR$/FireBase_Authentication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OwlBook.iml" filepath="$PROJECT_DIR$/OwlBook.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
