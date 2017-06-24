@@ -26,12 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import static android.R.attr.name;
 
-public class homeActivityWithMenu extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+public class homeActivityWithMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private TextView UserName;
     private TextView UserEmail;
-    private FirebaseAuth auth;
+    //private FirebaseAuth auth;
     //FireBase DB reference
     private DatabaseReference udatabase;
 
@@ -47,7 +45,7 @@ public class homeActivityWithMenu extends AppCompatActivity
         //Set the fragment initially
         MainFragment fragment = new MainFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fcontainer,fragment);
+        fragmentTransaction.replace(R.id.fcontainer, fragment);
         fragmentTransaction.commit();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -61,7 +59,7 @@ public class homeActivityWithMenu extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        auth = FirebaseAuth.getInstance();
+        //auth = FirebaseAuth.getInstance();
 
     }
 
@@ -80,15 +78,16 @@ public class homeActivityWithMenu extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present
 
         //set current user instance
-        final FirebaseUser User = auth.getCurrentUser();
-        String Email = User.getEmail();
-        int end = Email.indexOf("@");
-        final String owl_user = Email.substring(0,end);
+        //final FirebaseUser User = auth.getCurrentUser();
+        //String Email = User.getEmail();
+        //int end = Email.indexOf("@");
+        //final String owl_user = Email.substring(0,end);
 
         UserName = (TextView) findViewById(R.id.User_Name);
         UserEmail = (TextView) findViewById(R.id.OwlEmail);
 
-        udatabase = FirebaseDatabase.getInstance().getReference().child(User.getUid());
+        //udatabase = FirebaseDatabase.getInstance().getReference().child(User.getUid());
+        /*
         udatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -106,6 +105,7 @@ public class homeActivityWithMenu extends AppCompatActivity
                         }
                     });
                 }
+
             }
 
             @Override
@@ -113,6 +113,7 @@ public class homeActivityWithMenu extends AppCompatActivity
 
             }
         });
+        */
 
         getMenuInflater().inflate(R.menu.home_activity_with_menu, menu);
         return true;

@@ -65,16 +65,9 @@ public class Owl extends AsyncTask<Void, Void, Boolean> {
                 /* Create instance of User */
                // User user = new User(user, pass);
                 databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child("Users").child(user).setValue(new User(user, pass));
 
-                // udatabase = FirebaseDatabase.getInstance().getReference();
-                // userInfo userinfo = new userInfo(User_password,owl_user);
-                // udatabase.child(User.getUid()).setValue(userinfo);
-
-                // finish();
-                // startActivity(new Intent(MainActivity.this, homeActivity.class));
-                // startActivity(new Intent(MainActivity.this,homeActivityWithMenu.class));
-
-                databaseReference.child("");
+                Log.d("[Owl -> doInBackground]", "Successfully added account to firebase.");
             } else {
                 // ...
                 return false;
@@ -90,7 +83,7 @@ public class Owl extends AsyncTask<Void, Void, Boolean> {
         super.onPostExecute(v);
 
         if (v) {
-            Toast.makeText(ctx, "Successfully Logged In", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, "Successfully logged in.", Toast.LENGTH_LONG).show();
 
             // Create an intent to bring up the next activity.
             Intent intent = new Intent(ctx, homeActivityWithMenu.class);

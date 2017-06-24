@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 public class User {
     private String password;
-    private String UserID;
+    private String id;
     private String name;
     private ArrayList<courses> UserCourseList;
 
     public User(String UserID, String password){
         this.password = password;
-        this.UserID = UserID;
+        this.id = UserID;
 
         UserCourseList = new ArrayList<>();
     }
@@ -29,11 +29,11 @@ public class User {
         UserCourseList.add(course);
     }
 
-    public void setUserID(String UserID){
-        this.UserID = UserID;
+    public void setId(String id){
+        this.id = id;
     }
-    public String getUserID(){
-        return UserID;
+    public String getId(){
+        return id;
     }
 
     public String getPassword(){

@@ -63,14 +63,13 @@ public class MainFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        auth = FirebaseAuth.getInstance();
+        //auth = FirebaseAuth.getInstance();
 
         //set current user instance
-        FirebaseUser User = auth.getCurrentUser();
-        Toast.makeText(getActivity(),"Welcome " +User.getEmail(), Toast.LENGTH_LONG).show();
+        //FirebaseUser User = auth.getCurrentUser();
+        //Toast.makeText(getActivity(),"Welcome " +User.getEmail(), Toast.LENGTH_LONG).show();
 
         //Executes bg task of retrieving info
         new FireBaseRetrieval().execute();
@@ -81,11 +80,12 @@ public class MainFragment extends Fragment {
     //FireBase bg connection
     private class FireBaseRetrieval extends AsyncTask<Void,Void,Void>{
 
-        FirebaseUser User = auth.getCurrentUser();
+        // FirebaseUser User = auth.getCurrentUser();
 
         @Override
         protected Void doInBackground(Void... params) {
 
+            /*
             //Connects straight to child "password of object"
             udatabase = FirebaseDatabase.getInstance().getReference().child(User.getUid()).child("password");
 
@@ -105,7 +105,7 @@ public class MainFragment extends Fragment {
 
                 }
             });
-
+            */
             return null;
         }
 
