@@ -1,8 +1,10 @@
 package com.example.toshiba.firebase_authentication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +14,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import static android.R.attr.name;
 
 public class homeActivityWithMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private TextView UserName;
+    private TextView UserEmail;
+    private FirebaseAuth auth;
+    //FireBase DB reference
+    private DatabaseReference udatabase;
+
 
     NavigationView navigationView = null;
     Toolbar toolbar = null;
@@ -41,6 +61,8 @@ public class homeActivityWithMenu extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        auth = FirebaseAuth.getInstance();
+
     }
 
     @Override
@@ -55,7 +77,43 @@ public class homeActivityWithMenu extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items to the action bar if it is present
+
+        //set current user instance
+        final FirebaseUser User = auth.getCurrentUser();
+        String Email = User.getEmail();
+        int end = Email.indexOf("@");
+        final String owl_user = Email.substring(0,end);
+
+        UserName = (TextView) findViewById(R.id.User_Name);
+        UserEmail = (TextView) findViewById(R.id.OwlEmail);
+
+        udatabase = FirebaseDatabase.getInstance().getReference().child(User.getUid());
+        udatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(owl_user)){
+                    udatabase = FirebaseDatabase.getInstance().getReference().child(User.getUid()).child(owl_user).child("name");
+                    udatabase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String name = dataSnapshot.getValue().toString();
+                            UserName.setText(name);
+                            UserEmail.setText(User.getEmail());
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         getMenuInflater().inflate(R.menu.home_activity_with_menu, menu);
         return true;
     }
@@ -98,6 +156,9 @@ public class homeActivityWithMenu extends AppCompatActivity
 
         } else if (id == R.id.About) {
 
+        }else if (id == R.id.Signout){
+            finish();
+            startActivity(new Intent(homeActivityWithMenu.this,MainActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

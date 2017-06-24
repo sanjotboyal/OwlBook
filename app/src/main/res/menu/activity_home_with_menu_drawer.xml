@@ -28,6 +28,10 @@
                 android:id="@+id/About"
                 android:icon="@drawable/ic_help"
                 android:title="About" />
+            <item
+                android:id="@+id/Signout"
+                android:icon="@drawable/ic_lock"
+                android:title="Log Out" />
 
         </menu>
     </item>

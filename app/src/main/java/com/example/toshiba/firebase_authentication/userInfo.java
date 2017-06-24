@@ -10,6 +10,8 @@ import java.util.ArrayList;
 public class userInfo {
     private String password;
     private String UserID;
+    private String name;
+
     public ArrayList<courses> UserCourseList = new ArrayList<>();
 
 
@@ -42,5 +44,12 @@ public class userInfo {
         return UserID;
     }
 
+    public String getName(){
+        return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
 
 }

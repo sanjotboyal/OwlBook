@@ -26,24 +26,22 @@
         android:id="@+id/User_Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sanjot Boyal"
-        android:textSize = "14sp"
-        android:textColor = "#FFF"
-        android:textStyle = "bold"
-        android:paddingBottom = "20dp"
-        android:gravity = "left"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:gravity="left"
+        android:paddingBottom="20dp"
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/OwlEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize = "14sp"
-        android:textColor = "#FFF"
-        android:gravity = "left"
-        android:text="sboyal2@uwo.ca"
         android:layout_alignBottom="@+id/User_Name"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:gravity="left"
+        android:textColor="#FFF"
+        android:textSize="14sp" />
 
 </RelativeLayout>

@@ -41,6 +41,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import static android.R.attr.name;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -69,8 +71,6 @@ public class MainFragment extends Fragment {
         //set current user instance
         FirebaseUser User = auth.getCurrentUser();
         Toast.makeText(getActivity(),"Welcome " +User.getEmail(), Toast.LENGTH_LONG).show();
-
-        //sdatabase = FirebaseDatabase.getInstance().getReference();
 
         //Executes bg task of retrieving info
         new FireBaseRetrieval().execute();
@@ -111,6 +111,7 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
 
         }
     }
@@ -165,7 +166,7 @@ public class MainFragment extends Fragment {
 
                         //Using Base-URL: finds gradebook URL:
                         Document gradebookURLs= Jsoup.connect(CourseBaseURL).cookies(loginCookies).get();
-                        Elements GradebookPage = gradebookURLs.select("a.toolMenuLink[href]");
+                        Elements GradebookPage = gradebookURLs.select("a.toolMenuLink[href],li.submenuitem");
 
                         //Gradebook URL Find- smart selection
                         for (Element Gradebook1page : GradebookPage) {
@@ -233,7 +234,12 @@ public class MainFragment extends Fragment {
 
                 udatabase = FirebaseDatabase.getInstance().getReference().child(User.getUid());
 
+                String nameURL = CurrentUser.UserCourseList.get(0).getGradebook_URL();
 
+                Document nameURLs= Jsoup.connect(nameURL).cookies(loginCookies).get();
+                String user_nameunparsed = nameURLs.select("h3").first().html();
+                String user_name = user_nameunparsed.substring(user_nameunparsed.indexOf("for")+4);
+                CurrentUser.setName(user_name);
                 //Creates hashmap to update info under userName
                 Map<String,Object> CourseUpdates = new HashMap<String,Object>();
                 CourseUpdates.put(owl_user,CurrentUser);
@@ -253,6 +259,7 @@ public class MainFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
 
 
         }
