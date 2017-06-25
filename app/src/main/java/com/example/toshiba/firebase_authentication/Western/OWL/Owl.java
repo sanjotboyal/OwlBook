@@ -61,10 +61,10 @@ public class Owl extends AsyncTask<Void, Void, Boolean> {
             // Check if user successfully logged in.
             if (document.title().contains("Home")) {
                 /* Create instance of User */
-                currUser = new User(user, pass);
+                currUser = new User(user, pass, cookie);
                 databaseReference = FirebaseDatabase.getInstance().getReference();
                 databaseReference.child("Users").child(user).setValue(currUser);
-                currUser.setCookies(cookie);
+                //currUser.setCookies(cookie);
 
                 Log.d("[Owl -> doInBackground]", "Successfully added account to firebase.");
             } else {

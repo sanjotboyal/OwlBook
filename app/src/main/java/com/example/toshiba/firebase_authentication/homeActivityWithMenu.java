@@ -43,15 +43,17 @@ public class homeActivityWithMenu extends AppCompatActivity implements Navigatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_with_menu);
 
+        Bundle bundle = new Bundle();
+
         // Retrieve User object from bundle.
         if (savedInstanceState == null) {
-            Bundle bundle = getIntent().getExtras();
+            bundle = getIntent().getExtras();
             currUser = (User)bundle.get("CURRENT_USER");
         }
 
         // Set the fragment initially
         MainFragment fragment = new MainFragment();
-        fragment.setArguments(savedInstanceState);
+        fragment.setArguments(bundle);
 
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fcontainer, fragment);

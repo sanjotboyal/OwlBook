@@ -67,7 +67,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Retrieve user information.
-        Bundle bundle = this.getArguments();
+        Bundle bundle = getArguments();
         if (bundle != null) {
             currUser = (User)bundle.get("CURRENT_USER");
             Log.d("[MainFragment]", "Successfully recieved User: " + currUser.getId());
@@ -80,7 +80,7 @@ public class MainFragment extends Fragment {
         //Toast.makeText(getActivity(),"Welcome " +User.getEmail(), Toast.LENGTH_LONG).show();
 
         //Executes bg task of retrieving info
-        new FireBaseRetrieval().execute();
+        new owlRetrieval().execute();
 
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
@@ -127,21 +127,21 @@ public class MainFragment extends Fragment {
     //Owl Jsoup Connection
     private class owlRetrieval extends AsyncTask<Void,Void,Void>{
 
-        FirebaseUser User = auth.getCurrentUser();
-        String Email = User.getEmail();
-        int end = Email.indexOf("@");
-        String owl_user = Email.substring(0,end);
+        //FirebaseUser User = auth.getCurrentUser();
+        //String Email = currUser.getEmail();
+        //int end = Email.indexOf("@");
+        String owl_user = currUser.getId();
 
         @Override
         protected Void doInBackground(Void... params) {
             //Connects and verifies owl and gets info
             try {
                 //Connects and parse page after login
-                Connection.Response res = Jsoup.connect("https://owl.uwo.ca/portal/relogin").data("eid",owl_user).data("pw",user_login.get(0)).method(Connection.Method.POST).execute();
+                //Connection.Response res = Jsoup.connect("https://owl.uwo.ca/portal/relogin").data("eid",owl_user).data("pw",user_login.get(0)).method(Connection.Method.POST).execute();
                 Document document = Jsoup.connect("https://owl.uwo.ca/portal/relogin").cookies(currUser.getCookies()).get();
 
                 //Saves login cookies
-                Map<String,String>loginCookies = res.cookies();
+                Map<String,String>loginCookies = currUser.getCookies();
 
                 //Gets link for all sites
                 String allsiteUrl = document.select("a#allSites[href]").first().attr("abs:href");
@@ -240,7 +240,7 @@ public class MainFragment extends Fragment {
 
                 //Connects to firebase db under the Unique USER ID
 
-                udatabase = FirebaseDatabase.getInstance().getReference().child(User.getUid());
+                //udatabase = FirebaseDatabase.getInstance().getReference().child(User.getUid());
 
                 String nameURL = CurrentUser.UserCourseList.get(0).getGradebook_URL();
 
@@ -252,7 +252,7 @@ public class MainFragment extends Fragment {
                 Map<String,Object> CourseUpdates = new HashMap<String,Object>();
                 CourseUpdates.put(owl_user,CurrentUser);
                 Log.d("FIRE 2- AFTER ","UPDATE-UPDATE");
-                udatabase.updateChildren(CourseUpdates);
+                //.updateChildren(CourseUpdates);
                 Log.d("FIRE 3-AFTER ","UPDATE-UPDATE");
 
                 CurrentUser = null;
