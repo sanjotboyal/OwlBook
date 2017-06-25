@@ -2,9 +2,6 @@ package com.example.toshiba.firebase_authentication.Western;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.example.toshiba.firebase_authentication.courses;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +9,7 @@ import java.util.Map;
 /**
  * TODO: Cookie only contains two strings, parse cookie by using following names:
  * JSESSIONID
- * NSC_pxm.vxp.db--443
+ * NSC_pxm.vxp.db--443 WHAT SHOULD WE CALL THIS
  */
 
 
@@ -24,9 +21,13 @@ public class User implements Parcelable {
     private String email;
 
     // Save cookies to user.
+    private final String COOKIE_SESSION_ID = "JSESSIONID";
+    private final String COOKIE_ENCRYPYION = "NSC_pxm.vxp.db--443";
+
+    // hmm...
     private Map<String,String> cookies;
 
-    private ArrayList<courses> UserCourseList;
+    public ArrayList<Course> UserCourseList;
 
     public User(String UserID, String password, Map<String, String> cookies){
         this.id = UserID;
@@ -48,7 +49,7 @@ public class User implements Parcelable {
         UserCourseList = new ArrayList<>();
     }
 
-    public void addCourse(courses course){
+    public void addCourse(Course course){
         UserCourseList.add(course);
     }
 
@@ -81,8 +82,12 @@ public class User implements Parcelable {
         return cookies;
     }
 
-    public courses getCourse(int index) {
+    public Course getCourse(int index) {
         return UserCourseList.get(index);
+    }
+
+    public void FirebaseFix() {
+        cookies.put( "NSC_pxm+vxp+db--443", cookies.remove( "NSC_pxm.vxp.db--443" ));
     }
 
     @Override
@@ -99,7 +104,7 @@ public class User implements Parcelable {
         out.writeString(email);
 
         for(Map.Entry<String,String> entry : cookies.entrySet()){
-            out.writeString(entry.getKey());
+            //out.writeString(entry.getKey());
             out.writeString(entry.getValue());
         }
 
@@ -125,20 +130,11 @@ public class User implements Parcelable {
 
         this.email = in.readString();
 
+        UserCourseList = new ArrayList<>();
+
         // Retrieve cookies...
         cookies = new HashMap<>();
-
-        for (int i = 0; i < 2; i++) {
-            String key = in.readString();
-            String value = in.readString();
-
-            cookies.put(key, value);
-        }
-
-        // Fix cookies...
-        cookies.put("NSC_pxm.vxp.db--443", cookies.remove("NSC_pxm+vxp+db--443"));
-
-
-        //in.readMap(cookies, getClass().getClassLoader());
+        cookies.put(COOKIE_SESSION_ID, in.readString());
+        cookies.put(COOKIE_ENCRYPYION, in.readString());
     }
 }

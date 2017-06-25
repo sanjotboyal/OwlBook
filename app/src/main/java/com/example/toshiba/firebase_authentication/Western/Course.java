@@ -10,6 +10,7 @@ public class Course {
     private String name;
     private String base_url;
     private String gradebook_URL;
+
     public HashMap<String,String> Assignments = new HashMap<>();
 
     public Course(String name, String base_url){

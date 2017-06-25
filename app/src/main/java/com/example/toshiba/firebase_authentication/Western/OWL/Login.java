@@ -22,7 +22,7 @@ import java.util.Map;
  * Created by j3chowdh on 6/23/2017.
  */
 
-public class Owl extends AsyncTask<Void, Void, Boolean> {
+public class Login extends AsyncTask<Void, Void, Boolean> {
     private String user;
     private String pass;
 
@@ -33,7 +33,7 @@ public class Owl extends AsyncTask<Void, Void, Boolean> {
 
     private User currUser;
 
-    public Owl(String id, String password, Context context) {
+    public Login(String id, String password, Context context) {
         this.user = id;
         this.pass = password;
 
@@ -47,32 +47,42 @@ public class Owl extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        // Owl system connect and login
+        // Login system connect and login
         try {
             // Performs a connection to OWL
-            Map<String, String> cookie = Jsoup.connect("https://owl.uwo.ca/portal").method(Connection.Method.GET).execute().cookies();
+            //Map<String, String> cookie = Jsoup.connect("https://owl.uwo.ca/portal").method(Connection.Method.GET).execute().cookies();
+
+            Connection.Response res = Jsoup.connect("https://owl.uwo.ca/portal/relogin")
+                    .data("eid", user)
+                    .data("pw", pass)
+                    .method(Connection.Method.POST)
+                    .execute();
+
+            Document document = res.parse();
+
+            /*
             Document document = Jsoup.connect("https://owl.uwo.ca/portal/relogin")
                     .data("cookieexists", "false")
                     .data("eid", user)
                     .data("pw", pass)
-                    .cookies(cookie)
                     .post();
+                    */
 
             // Check if user successfully logged in.
             if (document.title().contains("Home")) {
                 /* Create instance of User */
-                currUser = new User(user, pass, cookie);
+                currUser = new User(user, pass, res.cookies());
                 databaseReference = FirebaseDatabase.getInstance().getReference();
                 databaseReference.child("Users").child(user).setValue(currUser);
                 //currUser.setCookies(cookie);
 
-                Log.d("[Owl -> doInBackground]", "Successfully added account to firebase.");
+                Log.d("[Login]", "Successfully added account to firebase.");
             } else {
                 // ...
                 return false;
             }
         } catch (Exception e) {
-            Log.d("[Owl -> doInBackground]", "FAILED: " + e.toString());
+            Log.d("[Login]", "FAILED: " + e.toString());
         }
         return true;
     }
