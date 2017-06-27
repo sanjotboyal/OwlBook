@@ -2,6 +2,7 @@ package com.example.toshiba.firebase_authentication.Western.OWL;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.toshiba.firebase_authentication.Western.Course;
 import com.example.toshiba.firebase_authentication.Western.User;
@@ -17,9 +18,9 @@ import org.jsoup.select.Elements;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by j3chowdh on 6/25/2017.
- */
+import static android.R.attr.name;
+import static java.security.AccessController.getContext;
+
 
 public class CourseEntry extends AsyncTask<Void,Void,Void>  {
     private User currUser;
@@ -55,23 +56,17 @@ public class CourseEntry extends AsyncTask<Void,Void,Void>  {
 
             // Connects to Full Course List.
             Document listofCourses = Jsoup.connect(coursesURL).cookies(cookies).get();
-            Elements course_lists = listofCourses.select("tr");
+            Elements course_lists = listofCourses.select("h4 > a[href]");
 
             // Checks through all rows to find things that are actually courses (goes through all courses).
             for (Element course_list : course_lists){
-                String course = course_list.toString();
-
-                Log.d("[COURSE]", course);
-
                 //Found courses: parses name and Base-url
-                if(course.contains("course")){
-                    int nstart = course.indexOf("top\">") + 6;
-                    int nend = course.indexOf("</a>") - 1;
-                    String CourseName = course.substring(nstart,nend);
+                if(course_list.toString().contains("FW")){
+                    String CourseName = course_list.html();
+                    String CourseBaseURL = course_list.attr("abs:href");
 
-                    int lstart = course.indexOf("href=\"") + 6;
-                    int lend = course.indexOf("target") - 2;
-                    String CourseBaseURL = course.substring(lstart,lend);
+                    Log.d("[COURSE PARSE: ", "Name: " + CourseName);
+                    Log.d("[COURSE PARSE: ", "URL: " + CourseBaseURL);
 
                     // Set Objects for courses.
                     Course ListCourses = new Course(CourseName, CourseBaseURL);
@@ -98,43 +93,17 @@ public class CourseEntry extends AsyncTask<Void,Void,Void>  {
                     // Document AssignmentGradeBook = Jsoup.connect("https://owl.uwo.ca/portal/tool/21b98a44-5379-4c2c-a7de-55ca60e03b00/studentView.jsf").cookies(loginCookies).get();
 
                     Elements assignments = AssignmentGradeBook.select("tr.internal,tr.external");
+                    int i=0;
+                    for (Element assignment:assignments){
 
-                    for (int i=0; i<assignments.size();i++) {
-                        Element assignment = assignments.get(i);
-                        String Raw = assignment.toString();
+                        String Assign = assignment.getElementsByClass("left").html();
+                        Log.d("[GRADE-ENTRY ","NAME OF ASSIGNMENT: " + Assign);
 
-                        int astart = Raw.indexOf("left\">") + 6;
-
-                        int aend;
-                        if(Raw.contains("attach")){
-                            aend = StringUtils.ordinalIndexOf(Raw, "</td>", 2);
-                        } else{
-                            aend = Raw.indexOf("</td>");
-                        }
-
-                        String Assign = Raw.substring(astart, aend);
-
-
-                        String Mark;
-
-                        if (Raw.contains("Not counted towards")) {
-                            int mstart = Raw.indexOf("grade\">(") + 8;
-                            int mend = Raw.indexOf(")</span>");
-                            Mark = Raw.substring(mstart, mend);
-
-                        } else {
-                            int mstart = StringUtils.ordinalIndexOf(Raw, "center\">", 2) + 8;
-                            if(Raw.contains("attach")) {
-                                int mend = StringUtils.ordinalIndexOf(Raw, "</td>", 4);
-                                Mark = Raw.substring(mstart, mend);
-                            }else {
-                                int mend = StringUtils.ordinalIndexOf(Raw, "</td>", 3);
-                                Mark = Raw.substring(mstart, mend);
-                            }
-                        }
-
+                        String Mark = assignment.getElementsByClass("center").get(1).text();
+                        Log.d("[GRADE-ENTRY ","MARK: " + Mark);
 
                         ListCourses.addAssignment("A"+i,Assign + ":" + Mark);
+                        i+=1;
                     }
 
                     //Adds courses object to array list UNDER user
@@ -146,18 +115,14 @@ public class CourseEntry extends AsyncTask<Void,Void,Void>  {
 
             Document nameURLs= Jsoup.connect(nameURL).cookies(cookies).get();
             String user_nameunparsed = nameURLs.select("h3").first().html();
+            Log.d("UNPARSED: ", "User_name after selection: " + user_nameunparsed);
 
             String user_name = user_nameunparsed.substring(user_nameunparsed.indexOf("for")+4);
             currUser.setName(user_name);
 
-            // Creates hashmap to update info under userName.
-            //Map<String,Object> CourseUpdates = new HashMap<String,Object>();
-
             databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currUser.getId());
 
             currUser.FirebaseFix();
-
-            Log.d("xd", "yo " + currUser.UserCourseList.size());
 
             databaseReference.setValue(currUser);
             Log.d("FIRE 3-AFTER ","UPDATE-UPDATE");
@@ -170,8 +135,5 @@ public class CourseEntry extends AsyncTask<Void,Void,Void>  {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-
-
-
     }
 }

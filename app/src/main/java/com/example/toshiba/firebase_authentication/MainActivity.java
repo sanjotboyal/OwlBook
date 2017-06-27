@@ -32,18 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize progress bar.
-       // progressDialog = new ProgressDialog(this);
-
-        // Initalize Firebase Authentication.
-        auth = FirebaseAuth.getInstance();
-
-        // Check if user is already logged in.
-        if (auth.getCurrentUser() != null){
-            finish();
-            startActivity(new Intent(this,homeActivityWithMenu.class));
-        }
-
         /* Setup login page. */
         email = (EditText) findViewById(R.id.email_box);
         password = (EditText) findViewById(R.id.password_box);

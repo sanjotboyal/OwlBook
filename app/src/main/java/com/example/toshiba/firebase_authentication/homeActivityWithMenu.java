@@ -90,6 +90,7 @@ public class homeActivityWithMenu extends AppCompatActivity implements Navigatio
         UserEmail = (TextView) findViewById(R.id.OwlEmail);
 
         UserEmail.setText(currUser.getEmail());
+        UserName.setText(currUser.getName());
 
         //udatabase = FirebaseDatabase.getInstance().getReference().child(User.getUid());
         /*
