@@ -77,13 +77,14 @@ public class Login extends AsyncTask<Void, Void, Boolean> {
                 databaseReference.child("Users").child(user).setValue(currUser);
                 //currUser.setCookies(cookie);
 
-                Log.d("[Login]", "Successfully added account to firebase.");
+                Log.d("[Login]", "Successfully added account to firebase. " + document.title());
             } else {
                 // ...
                 return false;
             }
         } catch (Exception e) {
             Log.d("[Login]", "FAILED: " + e.toString());
+            return false;
         }
         return true;
     }

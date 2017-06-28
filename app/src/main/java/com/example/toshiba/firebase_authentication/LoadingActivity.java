@@ -14,6 +14,6 @@ public class LoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
 
         ImageView gif = (ImageView) findViewById(R.id.GifView);
-        Ion.with(gif).load("android.resource://com.example.toshiba.firebase_authentication/" + R.drawable.gifview);
+                Ion.with(gif).load("android.resource://com.example.toshiba.firebase_authentication/" + R.drawable.loader);
     }
 }
