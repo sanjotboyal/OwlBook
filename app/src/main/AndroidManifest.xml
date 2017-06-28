@@ -26,7 +26,8 @@
         <activity
             android:name=".homeActivityWithMenu"
             android:label="@string/title_activity_home_with_menu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".LoadingActivity"></activity>
     </application>
 
 </manifest>

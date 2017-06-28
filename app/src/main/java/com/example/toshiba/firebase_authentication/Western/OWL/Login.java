@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.toshiba.firebase_authentication.LoadingActivity;
 import com.example.toshiba.firebase_authentication.Western.User;
 import com.example.toshiba.firebase_authentication.homeActivityWithMenu;
 import com.google.firebase.database.DatabaseReference;
@@ -104,6 +105,8 @@ public class Login extends AsyncTask<Void, Void, Boolean> {
             ctx.startActivity(intent);
         } else {
             Toast.makeText(ctx, "Invalid Western ID or password.", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(ctx, LoadingActivity.class);
+            ctx.startActivity(intent);
         }
 
         progressDialog.dismiss();
