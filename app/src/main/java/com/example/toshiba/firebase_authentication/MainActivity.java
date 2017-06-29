@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
    // private ProgressDialog progressDialog;
 
-    private FirebaseAuth auth;
-    private DatabaseReference udatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
