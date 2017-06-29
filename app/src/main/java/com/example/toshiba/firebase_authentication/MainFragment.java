@@ -69,8 +69,6 @@ public class MainFragment extends Fragment {
             }
         }
 
-        //Executes bg task of retrieving info
-        new CourseEntry(currUser).execute();
 
         return inflater.inflate(R.layout.fragment_main, container, false);
     }

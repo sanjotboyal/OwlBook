@@ -31,8 +31,6 @@ public class homeActivityWithMenu extends AppCompatActivity implements Navigatio
     private TextView UserName;
     private TextView UserEmail;
 
-    private DatabaseReference databaseReference;
-
     private User currUser;
 
     NavigationView navigationView = null;

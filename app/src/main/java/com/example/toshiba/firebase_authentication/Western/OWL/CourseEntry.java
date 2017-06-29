@@ -1,11 +1,14 @@
 package com.example.toshiba.firebase_authentication.Western.OWL;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.toshiba.firebase_authentication.Western.Course;
 import com.example.toshiba.firebase_authentication.Western.User;
+import com.example.toshiba.firebase_authentication.homeActivityWithMenu;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -20,18 +23,19 @@ import static android.R.attr.name;
 import static java.security.AccessController.getContext;
 
 
-public class CourseEntry extends AsyncTask<Void,Void,Void>  {
+public class CourseEntry extends AsyncTask<Void,Void,User>  {
     private User currUser;
 
     // FireBase DB reference
     private DatabaseReference databaseReference;
-
+    private Intent intent;
+    private Context ctx;
     public CourseEntry(User user) {
         this.currUser = user;
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected User doInBackground(Void... params) {
         //Connects and verifies owl and gets info
         try {
             Log.d("[CourseEntry", "Starting doInBackground...");
@@ -124,6 +128,9 @@ public class CourseEntry extends AsyncTask<Void,Void,Void>  {
 
             databaseReference.setValue(currUser);
             Log.d("FIRE 3-AFTER ","UPDATE-UPDATE");
+
+            return currUser;
+
         }catch(Exception e){
             Log.d("[CourseEntry]", "FAILED: " + e.toString());
         }
@@ -131,7 +138,11 @@ public class CourseEntry extends AsyncTask<Void,Void,Void>  {
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
+    protected void onPostExecute(User u) {
+        super.onPostExecute(u);
+        intent = new Intent(ctx, homeActivityWithMenu.class);
+        intent.putExtra("CURRENT_USER", u);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ctx.startActivity(intent);
     }
 }
