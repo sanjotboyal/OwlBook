@@ -20,8 +20,7 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.util.Map;
-
+// TODO: Create a task for executing the check to FireBase, then on success of that call we return the object from doInBackground.
 
 public class Login extends AsyncTask<Void, Void, User> {
     private String user;
@@ -34,7 +33,6 @@ public class Login extends AsyncTask<Void, Void, User> {
 
     private Intent intent;
 
-    public boolean logged;
 
     private User currUser;
 
@@ -55,8 +53,6 @@ public class Login extends AsyncTask<Void, Void, User> {
         // Login system connect and login
         try {
             // Performs a connection to OWL
-            //Map<String, String> cookie = Jsoup.connect("https://owl.uwo.ca/portal").method(Connection.Method.GET).execute().cookies();
-
             final Connection.Response res = Jsoup.connect("https://owl.uwo.ca/portal/relogin")
                     .data("eid", user)
                     .data("pw", pass)
@@ -65,47 +61,48 @@ public class Login extends AsyncTask<Void, Void, User> {
 
             Document document = res.parse();
 
-            /*
-            Document document = Jsoup.connect("https://owl.uwo.ca/portal/relogin")
-                    .data("cookieexists", "false")
-                    .data("eid", user)
-                    .data("pw", pass)
-                    .post();
-                    */
 
             // Check if user successfully logged in.
             if (document.title().contains("Home")) {
                 Log.d("LOGGED IN SUCCESS HOME", "OKAY LOGGED IN LEGGO-FB");
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
                 Log.d("LOGGED IN 2222", "FB SUCCESS FOUND");
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.child(user).exists()){
-                            Log.d("HAS USER FOUND", "TRUE: " +logged);
-                            databaseReference = databaseReference.child(user);
-                            currUser = dataSnapshot.getValue(User.class);
-                            Log.d("CURRENT USER-FB ", "Name of User: " +currUser.getPassword());
-                            intent = new Intent(ctx, homeActivityWithMenu.class);
-                        }else{
-                            Log.d("NOT FOUND USER", "FALSE: " +logged);
+
+                synchronized (currUser) {
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.child(user).exists()){
+                                Log.d("HAS USER FOUND", "TRUE:");
+                                databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user);
+
+                                currUser = dataSnapshot.getChildren().iterator().next().getValue(User.class);
+                                //currUser = dataSnapshot.getValue(User.class);
+                                Log.d("CURRENT USER-FB ", "Name of User: " +currUser.getPassword());
+                                intent = new Intent(ctx, homeActivityWithMenu.class);
+                            } else {
+                                Log.d("NOT FOUND USER", "FALSE:");
                             /* Create instance of User */
-                            currUser = new User(user, pass, res.cookies());
-                            databaseReference = FirebaseDatabase.getInstance().getReference();
-                            databaseReference.child("Users").child(user).setValue(currUser);
-                            //currUser.setCookies(cookie);
-                            intent = new Intent(ctx, LoadingActivity.class);
+                                currUser = new User(user, pass, res.cookies());
+                                databaseReference = FirebaseDatabase.getInstance().getReference();
+                                databaseReference.child("Users").child(user).setValue(currUser);
+
+                                intent = new Intent(ctx, LoadingActivity.class);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
+                }
 
-                Log.d("[Login]", "Successfully added account to firebase. " + document.title());
-                return currUser;
+                synchronized (currUser) {
+                    Log.d("[Login]", "Successfully added account to firebase. " + currUser.getPassword());
+                    return currUser;
+                }
+
             } else {
                 // ...
                 return null;
@@ -125,7 +122,7 @@ public class Login extends AsyncTask<Void, Void, User> {
 
         if (u != null) {
             Toast.makeText(ctx, "Successfully logged in.", Toast.LENGTH_LONG).show();
-            Log.d("POST EXECUTE", "TRUE/FALSE: " +logged);
+            Log.d("POST EXECUTE", "TRUE/FALSE: ");
 
             // Pass User object to new activity.
             intent.putExtra("CURRENT_USER", u);

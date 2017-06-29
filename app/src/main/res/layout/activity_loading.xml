@@ -43,11 +43,9 @@
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/GifView"
         android:layout_below="@+id/tvStatus"
-        android:paddingTop = "50dp"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:src="@drawable/load"
-        />
+        android:src="@drawable/loader" />
 
 
 </RelativeLayout>

@@ -27,7 +27,7 @@ public class User implements Parcelable {
     // hmm...
     private Map<String,String> cookies;
 
-    public ArrayList<Course> UserCourseList;
+    private ArrayList<Course> UserCourseList;
 
     public User(String UserID, String password, Map<String, String> cookies){
         this.id = UserID;
@@ -45,13 +45,12 @@ public class User implements Parcelable {
         UserCourseList = new ArrayList<>();
     }
 
-    public User(){
-        UserCourseList = new ArrayList<>();
+    // hmm...
+    public User() {
+        //
     }
 
-    public void addCourse(Course course){
-        UserCourseList.add(course);
-    }
+    /* Setters and getters */
 
     public void setId(String id){
         this.id = id;
@@ -60,14 +59,24 @@ public class User implements Parcelable {
         return id;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPassword(){
         return password;
     }
+
     public void setName(String name){
         this.name = name;
     }
+
     public String getName(){
         return name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getEmail() {
@@ -80,6 +89,19 @@ public class User implements Parcelable {
 
     public Map<String, String> getCookies() {
         return cookies;
+    }
+
+    public void setUserCourseList(ArrayList<Course> userCourseList) {
+        UserCourseList = userCourseList;
+    }
+
+    public ArrayList<Course> getUserCourseList() {
+        return UserCourseList;
+    }
+
+    /* Public methods */
+    public void addCourse(Course course){
+        UserCourseList.add(course);
     }
 
     public Course getCourse(int index) {
