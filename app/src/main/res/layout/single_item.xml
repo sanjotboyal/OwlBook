@@ -60,7 +60,7 @@
                     android:layout_marginTop="8dp"
                     android:gravity="right"
                     android:textSize = "15sp"
-                    android:textColor = "android:color/black"
+                    android:textColor = "@android:color/black"
                     android:text="Final Exam Lit af: 99%" />
 
                 <TextView
@@ -71,7 +71,7 @@
                     android:paddingTop = "8dp"
                     android:gravity="right"
                     android:textSize = "15sp"
-                    android:textColor = "android:color/black"
+                    android:textColor = "@android:color/black"
                     android:text="Midterm Exam Lit af: 99%" />
 
                 <TextView
@@ -82,7 +82,7 @@
                     android:paddingTop = "8dp"
                     android:gravity="right"
                     android:textSize = "15sp"
-                    android:textColor = "android:color/black"
+                    android:textColor = "@android:color/black"
                     android:text="Quiz Lit af: 99%" />
 
             </LinearLayout>

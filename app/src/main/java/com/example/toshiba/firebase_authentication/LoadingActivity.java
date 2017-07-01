@@ -22,7 +22,7 @@ public class LoadingActivity extends AppCompatActivity {
             currUser = (User)bundle.get("CURRENT_USER");
         }
 
-        new CourseEntry(currUser).execute();
+        new CourseEntry(currUser, this).execute();
 
     }
 }

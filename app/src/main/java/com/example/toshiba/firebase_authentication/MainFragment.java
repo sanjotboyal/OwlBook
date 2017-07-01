@@ -54,7 +54,7 @@ import static android.R.attr.name;
  */
 public class MainFragment extends Fragment {
     private User currUser;
-    ArrayList<Course> values = currUser.getUserCourseList();
+    ArrayList<Course> values;
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -74,6 +74,8 @@ public class MainFragment extends Fragment {
         if (bundle != null) {
             currUser = (User)bundle.get("CURRENT_USER");
             Log.d("[MainFragment]", "Successfully recieved User: " + currUser.getId());
+
+            values = currUser.getUserCourseList();
 
             for(Map.Entry<String,String> entry : currUser.getCookies().entrySet()){
                 Log.d("[MainFragment]", "Successfully recieved Cookie: " + entry.getKey() + " : " + entry.getValue());
