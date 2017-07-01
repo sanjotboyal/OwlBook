@@ -3,6 +3,8 @@ package com.example.toshiba.firebase_authentication;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +22,9 @@ import android.widget.Toast;
 
 import com.example.toshiba.firebase_authentication.MainActivity;
 import com.example.toshiba.firebase_authentication.R;
+import com.example.toshiba.firebase_authentication.Western.Course;
 import com.example.toshiba.firebase_authentication.Western.OWL.CourseEntry;
+import com.example.toshiba.firebase_authentication.Western.RecyclerViewAdapter;
 import com.example.toshiba.firebase_authentication.Western.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,6 +54,11 @@ import static android.R.attr.name;
  */
 public class MainFragment extends Fragment {
     private User currUser;
+    ArrayList<Course> values = currUser.getUserCourseList();
+
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    RecyclerViewAdapter recyclerViewAdapter;
 
     public MainFragment() {
         // Required empty public constructor
@@ -57,6 +66,8 @@ public class MainFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Retrieve user information.
         Bundle bundle = getArguments();
@@ -69,7 +80,14 @@ public class MainFragment extends Fragment {
             }
         }
 
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
 
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(),values);
+
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+        return view;
     }
 }

@@ -1,0 +1,83 @@
+package com.example.toshiba.firebase_authentication.Western;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.ArrayAdapter;
+
+import com.example.toshiba.firebase_authentication.R;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+
+    Context ctx;
+    View view;
+    ViewHolder viewHolder;
+    ArrayList<Course> values;
+    ArrayList<String> assignments;
+
+    public RecyclerViewAdapter(Context ctx, ArrayList<Course> values) {
+        this.ctx = ctx;
+        this.values = values;
+
+    }
+
+    @Override
+    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        view = LayoutInflater.from(ctx).inflate(R.layout.single_item,parent,false);
+        viewHolder = new ViewHolder(view);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerViewAdapter.ViewHolder holder, int position) {
+        holder.course_name.setText(values.get(position).getname());
+        holder.mark.setText(values.get(position).getCurrAverage());
+
+        for(int i=0; i<values.size();i++){
+            Iterator myVeryOwnIterator = values.get(i).Assignments.keySet().iterator();
+            while(myVeryOwnIterator.hasNext()) {
+                String key=(String)myVeryOwnIterator.next();
+                String value=(String)values.get(i).Assignments.get(key);
+                assignments.add(value);
+            }
+            //holder.assignment1.setText()
+        }
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return values.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+
+        TextView course_name;
+        TextView mark;
+        TextView assignment1;
+        TextView assignment2;
+        TextView assignment3;
+
+        //ListView assignmentsView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            course_name = (TextView) itemView.findViewById(R.id.courseView);
+            mark = (TextView) itemView.findViewById(R.id.markView);
+            assignment1 = (TextView) itemView.findViewById(R.id.assignment1);
+            assignment2 = (TextView) itemView.findViewById(R.id.assignment2);
+            assignment3 = (TextView) itemView.findViewById(R.id.assignment3);
+
+            //assignmentsView = (ListView) itemView.findViewById(R.id.listView);
+        }
+    }
+
+}

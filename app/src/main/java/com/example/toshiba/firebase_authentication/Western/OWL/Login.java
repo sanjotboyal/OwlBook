@@ -132,6 +132,7 @@ public class Login extends AsyncTask<Void, Void, User> {
 
         } else {
             Toast.makeText(ctx, "Invalid Western ID or password.", Toast.LENGTH_LONG).show();
+
         }
 
         progressDialog.dismiss();

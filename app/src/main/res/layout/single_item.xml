@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="70dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:contentPadding="10dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:id="@+id/courseView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textSize = "22sp"
+                android:textStyle="bold"
+                android:textColor = "@color/wpurple"
+                android:text="Programming-1036" />
+
+            <TextView
+                android:id="@+id/markView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background= "@drawable/markborder"
+                android:gravity="left"
+                android:layout_centerVertical="true"
+                android:textSize = "45sp"
+                android:textStyle="bold"
+                android:textColor="@color/wpurple"
+                android:text="99%" />
+
+            <LinearLayout
+                android:gravity="right"
+                android:orientation="vertical"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:layout_below="@+id/courseView"
+                android:layout_alignParentEnd="true">
+
+                <TextView
+                    android:id="@+id/assignment1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="right"
+                    android:textSize = "15sp"
+                    android:textColor = "android:color/black"
+                    android:text="Final Exam Lit af: 99%" />
+
+                <TextView
+                    android:id="@+id/assignment2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/assignment1"
+                    android:paddingTop = "8dp"
+                    android:gravity="right"
+                    android:textSize = "15sp"
+                    android:textColor = "android:color/black"
+                    android:text="Midterm Exam Lit af: 99%" />
+
+                <TextView
+                    android:id="@+id/assignment3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/assignment2"
+                    android:paddingTop = "8dp"
+                    android:gravity="right"
+                    android:textSize = "15sp"
+                    android:textColor = "android:color/black"
+                    android:text="Quiz Lit af: 99%" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/markView"
+                android:paddingTop = "6dp"
+                android:gravity="right"
+                android:textSize = "12sp"
+                android:textColor = "@color/wpurple"
+                android:text="More..." />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
