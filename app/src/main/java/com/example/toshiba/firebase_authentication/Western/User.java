@@ -2,9 +2,15 @@ package com.example.toshiba.firebase_authentication.Western;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /**
  * TODO: Cookie only contains two strings, parse cookie by using following names:
@@ -29,7 +35,7 @@ public class User implements Parcelable {
     // hmm...
     private Map<String,String> cookies;
 
-    private ArrayList<Course> UserCourseList;
+    private List<Course> UserCourseList;
 
     public User(String UserID, String password, Map<String, String> cookies){
         this.id = UserID;
@@ -93,11 +99,11 @@ public class User implements Parcelable {
         return cookies;
     }
 
-    public void setUserCourseList(ArrayList<Course> userCourseList) {
+    public void setUserCourseList(List<Course> userCourseList) {
         UserCourseList = userCourseList;
     }
 
-    public ArrayList<Course> getUserCourseList() {
+    public List<Course> getUserCourseList() {
         return UserCourseList;
     }
 
@@ -134,12 +140,12 @@ public class User implements Parcelable {
         out.writeString(password);
         out.writeString(name);
         out.writeString(email);
+        out.writeTypedList(UserCourseList);
 
         for(Map.Entry<String,String> entry : cookies.entrySet()){
             //out.writeString(entry.getKey());
             out.writeString(entry.getValue());
         }
-
 
         //out.writeMap(cookies);
     }
@@ -160,10 +166,8 @@ public class User implements Parcelable {
         this.id = in.readString();
         this.password = in.readString();
         this.name = in.readString();
-
         this.email = in.readString();
-
-        UserCourseList = new ArrayList<>();
+        in.readTypedList(UserCourseList, Course.CREATOR);
 
         // Retrieve cookies...
         cookies = new HashMap<>();
