@@ -42,12 +42,17 @@ public class homeActivityWithMenu extends AppCompatActivity implements Navigatio
         setContentView(R.layout.activity_home_with_menu);
 
         Bundle bundle = new Bundle();
+        //currUser = (User)bundle.get("CURRENT_USER");
+//        Log.d("homeActivityWithMenu", "user id:" + currUser.getId());
 
         // Retrieve User object from bundle.
+
         if (savedInstanceState == null) {
             bundle = getIntent().getExtras();
             currUser = (User)bundle.get("CURRENT_USER");
+            Log.d("homeActivityWithMenu", "user id:" + currUser.getId());
         }
+
 
         // Set the fragment initially
         MainFragment fragment = new MainFragment();
@@ -88,36 +93,9 @@ public class homeActivityWithMenu extends AppCompatActivity implements Navigatio
         UserEmail = (TextView) findViewById(R.id.OwlEmail);
 
         UserEmail.setText(currUser.getEmail());
+        Log.d("AHLIE THO", "STYLL THO NAME: " + currUser.getName());
         UserName.setText(currUser.getName());
 
-        //udatabase = FirebaseDatabase.getInstance().getReference().child(User.getUid());
-        /*
-        udatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(owl_user)){
-                    udatabase = FirebaseDatabase.getInstance().getReference().child(User.getUid()).child(owl_user).child("name");
-                    udatabase.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            String name = dataSnapshot.getValue().toString();
-                            UserName.setText(name);
-                            UserEmail.setText(User.getEmail());
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        */
 
         getMenuInflater().inflate(R.menu.home_activity_with_menu, menu);
         return true;

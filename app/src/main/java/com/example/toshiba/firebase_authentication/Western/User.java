@@ -20,6 +20,8 @@ public class User implements Parcelable {
     private String name;
     private String email;
 
+
+
     // Save cookies to user.
     private final String COOKIE_SESSION_ID = "JSESSIONID";
     private final String COOKIE_ENCRYPYION = "NSC_pxm.vxp.db--443";
@@ -112,6 +114,14 @@ public class User implements Parcelable {
         cookies.put( "NSC_pxm+vxp+db--443", cookies.remove( "NSC_pxm.vxp.db--443" ));
     }
 
+    public String getCOOKIE_SESSION_ID() {
+        return COOKIE_SESSION_ID;
+    }
+
+    public String getCOOKIE_ENCRYPYION() {
+        return COOKIE_ENCRYPYION;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -122,7 +132,7 @@ public class User implements Parcelable {
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(id);
         out.writeString(password);
-
+        out.writeString(name);
         out.writeString(email);
 
         for(Map.Entry<String,String> entry : cookies.entrySet()){
@@ -149,6 +159,7 @@ public class User implements Parcelable {
     private User(Parcel in) {
         this.id = in.readString();
         this.password = in.readString();
+        this.name = in.readString();
 
         this.email = in.readString();
 

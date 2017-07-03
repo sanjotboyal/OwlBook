@@ -70,7 +70,6 @@ public class Login extends AsyncTask<Void, Void, Boolean> {
                 Log.d("LOGGED IN SUCCESS HOME", "OKAY LOGGED IN LEGGO-FB");
 
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
-                Log.d("asd", "wwooo");
 
                 final AtomicBoolean done = new AtomicBoolean(false);
 
@@ -81,9 +80,21 @@ public class Login extends AsyncTask<Void, Void, Boolean> {
                             Log.d("HAS USER FOUND", "TRUE:");
                             databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user);
 
-                            currUser = dataSnapshot.getChildren().iterator().next().getValue(User.class);
+                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    currUser = dataSnapshot.getValue(User.class);
+                                    Log.d("CURRENT USER-FB ", "Name of User: " + currUser.getName());
+                                    done.set(true);
+                                }
 
-                            Log.d("CURRENT USER-FB ", "Name of User: " +currUser.getPassword());
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+
                             intent = new Intent(ctx, homeActivityWithMenu.class);
                         } else {
                             Log.d("NOT FOUND USER", "FALSE:");
@@ -93,9 +104,8 @@ public class Login extends AsyncTask<Void, Void, Boolean> {
                             databaseReference.child("Users").child(user).setValue(currUser);
 
                             intent = new Intent(ctx, LoadingActivity.class);
+                            done.set(true);
                         }
-
-                        done.set(true);
                     }
 
                     @Override
@@ -107,7 +117,7 @@ public class Login extends AsyncTask<Void, Void, Boolean> {
                 while (!done.get()) {
                     //... xd
                 }
-               // Log.d("[Login]", "Successfully added account to firebase. " + currUser.getPassword());
+                Log.d("[", "Successfully added Login]account to firebase. " + currUser.getPassword());
                 return true;
             } else {
                 // ...

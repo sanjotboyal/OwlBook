@@ -41,15 +41,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.course_name.setText(values.get(position).getname());
         holder.mark.setText(values.get(position).getCurrAverage());
 
-        for(int i=0; i<values.size();i++){
+  /*      for(int i=0; i<values.size();i++){
             Iterator myVeryOwnIterator = values.get(i).Assignments.keySet().iterator();
             while(myVeryOwnIterator.hasNext()) {
                 String key=(String)myVeryOwnIterator.next();
                 String value=(String)values.get(i).Assignments.get(key);
                 assignments.add(value);
             }
-            //holder.assignment1.setText()
-        }
+            holder.assignment1.setText(assignments.get(assignments.size()-1));
+            holder.assignment2.setText(assignments.get(assignments.size()-2));
+            holder.assignment3.setText(assignments.get(assignments.size()-3));
+        }*/
 
     }
 
@@ -62,9 +64,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         TextView course_name;
         TextView mark;
-        TextView assignment1;
+       /* TextView assignment1;
         TextView assignment2;
-        TextView assignment3;
+        TextView assignment3;*/
 
         //ListView assignmentsView;
 
@@ -72,9 +74,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
             course_name = (TextView) itemView.findViewById(R.id.courseView);
             mark = (TextView) itemView.findViewById(R.id.markView);
-            assignment1 = (TextView) itemView.findViewById(R.id.assignment1);
+            /*assignment1 = (TextView) itemView.findViewById(R.id.assignment1);
             assignment2 = (TextView) itemView.findViewById(R.id.assignment2);
-            assignment3 = (TextView) itemView.findViewById(R.id.assignment3);
+            assignment3 = (TextView) itemView.findViewById(R.id.assignment3);*/
 
             //assignmentsView = (ListView) itemView.findViewById(R.id.listView);
         }

@@ -142,6 +142,7 @@ public class CourseEntry extends AsyncTask<Void,Void,User>  {
     protected void onPostExecute(User u) {
         super.onPostExecute(u);
         intent = new Intent(ctx, homeActivityWithMenu.class);
+        Log.d("onPostExecute", "user id is: " + u.getId());
         intent.putExtra("CURRENT_USER", u);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ctx.startActivity(intent);
