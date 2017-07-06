@@ -3,7 +3,8 @@ package com.example.toshiba.firebase_authentication.Western;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  *
@@ -15,7 +16,7 @@ public class Course implements Parcelable {
     private String gradebook_URL;
     private String currAverage;
 
-    public HashMap<String,String> Assignments = new HashMap<>();
+    public Map<String,String> Assignments = new LinkedHashMap<>();
 
     public Course(String name, String base_url){
         this.name = name;
@@ -77,6 +78,7 @@ public class Course implements Parcelable {
         out.writeString(base_url);
         out.writeString(gradebook_URL);
         out.writeString(currAverage);
+        out.writeMap(Assignments);
     }
 
     private Course(Parcel in) {
@@ -84,5 +86,7 @@ public class Course implements Parcelable {
         this.base_url = in.readString();
         this.gradebook_URL = in.readString();
         this.currAverage = in.readString();
+        Assignments = new LinkedHashMap<>();
+        in.readMap(Assignments,String.class.getClassLoader());
     }
 }
