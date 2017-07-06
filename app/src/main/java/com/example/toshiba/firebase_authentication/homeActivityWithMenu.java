@@ -123,10 +123,17 @@ public class homeActivityWithMenu extends AppCompatActivity implements Navigatio
         int id = item.getItemId();
 
         if (id == R.id.home) {
+            Bundle bundle = new Bundle();
+            bundle = getIntent().getExtras();
+            currUser = (User)bundle.get("CURRENT_USER");
+            // Set the fragment initially
             MainFragment fragment = new MainFragment();
+            fragment.setArguments(bundle);
+
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fcontainer,fragment);
             fragmentTransaction.commit();
+
         } else if (id == R.id.Grade_calc) {
             GradeInfoFragment fragment = new GradeInfoFragment();
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
