@@ -72,10 +72,17 @@ public class Course implements Parcelable {
     };
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(name);
+        out.writeString(base_url);
+        out.writeString(gradebook_URL);
+        out.writeString(currAverage);
     }
 
     private Course(Parcel in) {
-
+        this.name=in.readString();
+        this.base_url = in.readString();
+        this.gradebook_URL = in.readString();
+        this.currAverage = in.readString();
     }
 }

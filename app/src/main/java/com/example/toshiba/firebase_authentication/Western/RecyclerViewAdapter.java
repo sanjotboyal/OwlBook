@@ -13,6 +13,7 @@ import com.example.toshiba.firebase_authentication.R;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -20,10 +21,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context ctx;
     View view;
     ViewHolder viewHolder;
-    ArrayList<Course> values;
-    ArrayList<String> assignments;
+    List<Course> values;
+    //ArrayList<String> assignments;
 
-    public RecyclerViewAdapter(Context ctx, ArrayList<Course> values) {
+    public RecyclerViewAdapter(Context ctx, List<Course> values) {
         this.ctx = ctx;
         this.values = values;
 

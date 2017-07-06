@@ -167,6 +167,7 @@ public class User implements Parcelable {
         this.password = in.readString();
         this.name = in.readString();
         this.email = in.readString();
+        UserCourseList = new ArrayList<Course>();
         in.readTypedList(UserCourseList, Course.CREATOR);
 
         // Retrieve cookies...

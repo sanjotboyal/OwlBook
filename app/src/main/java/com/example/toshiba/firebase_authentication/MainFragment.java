@@ -54,7 +54,7 @@ import static android.R.attr.name;
  */
 public class MainFragment extends Fragment {
     private User currUser;
-    ArrayList<Course> values;
+    List<Course> values;
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
