@@ -19,6 +19,7 @@ import com.example.toshiba.firebase_authentication.homeActivityWithMenu;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -56,18 +57,36 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         final int pos = position;
 
-        Set<Map.Entry<String,String>> assigned = values.get(position).Assignments.entrySet();
+        Set<LinkedHashMap.Entry<String,String>> assigned = values.get(position).Assignments.entrySet();
         int length = assigned.size();
 
         if (length >0) {
-            Map.Entry<String, String>[] ListofAssignments = new Map.Entry[length];
+            LinkedHashMap.Entry<String, String>[] ListofAssignments = new LinkedHashMap.Entry[length];
             assigned.toArray(ListofAssignments);
             Log.d("[LAST ASSN Course: ","Name: " + values.get(position).getname());
-            Log.d("[LAST ASSIGNED: create:", ListofAssignments[length - 1].getKey() + ":XD:" + ListofAssignments[length - 1].getValue());
 
-            holder.assignment1.setText(ListofAssignments[length - 1].getValue());
-            holder.assignment2.setText(ListofAssignments[length - 2].getValue());
-            holder.assignment3.setText(ListofAssignments[length - 3].getValue());
+            int max1 = 0 ,max2 = 0 ,max3 = 0;
+            int ind1 = 0, ind2 = 0, ind3 = 0;
+
+            for(int i = 0; i<ListofAssignments.length; i++){
+                if(Integer.parseInt(ListofAssignments[i].getKey().substring(1)) >= max1){
+                    ind1 = i;
+                    max1 = Integer.parseInt(ListofAssignments[i].getKey().substring(1));
+                    Log.d("Okay: " + ind1, "Okay: " + max1);
+                }else if(Integer.parseInt(ListofAssignments[i].getKey().substring(1)) >= max2){
+                    ind2 = i;
+                    max2 = Integer.parseInt(ListofAssignments[i].getKey().substring(1));
+                    Log.d("Okay2: " + ind2, "Okay2: " + max2);
+                }else if(Integer.parseInt(ListofAssignments[i].getKey().substring(1)) >= max3){
+                    ind3 = i;
+                    max3 = Integer.parseInt(ListofAssignments[i].getKey().substring(1));
+                    Log.d("Okay3: " + ind3, "Okay3: " + max3);
+                }
+            }
+
+            holder.assignment1.setText(ListofAssignments[ind1].getValue());
+            holder.assignment2.setText(ListofAssignments[ind2].getValue());
+            holder.assignment3.setText(ListofAssignments[ind3].getValue());
 
 
         }else{
