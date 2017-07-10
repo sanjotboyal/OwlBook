@@ -12,14 +12,19 @@ import java.util.Map;
 
 public class Course implements Parcelable {
     private String name;
+    private String section;
+
+
+
     private String base_url;
     private String gradebook_URL;
     private String currAverage;
 
     public Map<String,String> Assignments = new LinkedHashMap<>();
 
-    public Course(String name, String base_url){
+    public Course(String name, String section,String base_url){
         this.name = name;
+        this.section = section;
         this.base_url = base_url;
         this.gradebook_URL = "";
         this.currAverage = "0%";
@@ -42,6 +47,14 @@ public class Course implements Parcelable {
 
     public String getbase_url() {
         return base_url;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 
     public String getCurrAverage() {
@@ -75,6 +88,7 @@ public class Course implements Parcelable {
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(name);
+        out.writeString(section);
         out.writeString(base_url);
         out.writeString(gradebook_URL);
         out.writeString(currAverage);
@@ -83,6 +97,7 @@ public class Course implements Parcelable {
 
     private Course(Parcel in) {
         this.name=in.readString();
+        this.section = in.readString();
         this.base_url = in.readString();
         this.gradebook_URL = in.readString();
         this.currAverage = in.readString();

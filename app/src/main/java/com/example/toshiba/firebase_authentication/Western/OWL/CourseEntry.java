@@ -12,6 +12,7 @@ import com.example.toshiba.firebase_authentication.homeActivityWithMenu;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -65,14 +66,19 @@ public class CourseEntry extends AsyncTask<Void,Void,User>  {
             for (Element course_list : course_lists){
                 //Found courses: parses name and Base-url
                 if(course_list.toString().contains("FW")){
-                    String CourseName = course_list.html();
-                    String CourseBaseURL = course_list.attr("abs:href");
+                    String Course_Name = course_list.html();
+                    int endName = StringUtils.ordinalIndexOf(Course_Name, " ", 2);
+                    String CourseName = Course_Name.substring(0,endName);
 
-                    Log.d("[COURSE PARSE: ", "Name: " + CourseName);
+                    int endSection = StringUtils.ordinalIndexOf(Course_Name, " ", 3);
+                    String CourseSection = Course_Name.substring(endName+1,endSection);
+
+                    String CourseBaseURL = course_list.attr("abs:href");
+                    Log.d("[COURSE PARSE: ", "Name: " + CourseName +": " + CourseSection);
                     Log.d("[COURSE PARSE: ", "URL: " + CourseBaseURL);
 
                     // Set Objects for courses.
-                    Course ListCourses = new Course(CourseName, CourseBaseURL);
+                    Course ListCourses = new Course(CourseName, CourseSection, CourseBaseURL);
 
                     // Using Base-URL: finds gradebook URL:
                     Document gradebookURLs = Jsoup.connect(CourseBaseURL).cookies(cookies).get();
