@@ -53,7 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(RecyclerViewAdapter.ViewHolder holder, int position) {
         holder.course_name.setText(values.get(position).getname());
-        holder.mark.setText(values.get(position).getCurrAverage());
+        //holder.mark.setText(values.get(position).getCurrAverage());
 
         final int pos = position;
 
@@ -140,7 +140,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(View itemView) {
             super(itemView);
             course_name = (TextView) itemView.findViewById(R.id.courseView);
-            mark = (TextView) itemView.findViewById(R.id.markView);
             assignment1 = (TextView) itemView.findViewById(R.id.assignment1);
             assignment2 = (TextView) itemView.findViewById(R.id.assignment2);
             assignment3 = (TextView) itemView.findViewById(R.id.assignment3);

@@ -23,34 +23,60 @@
             android:layout_height="fill_parent">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/creatorView"
+                android:textSize="12sp"
+                android:text="XXXTENTACION"
+                android:maxLines="1"/>
+
+            <TextView
                 android:id="@+id/courseView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/creatorView"
                 android:maxLines="1"
                 android:textSize = "22sp"
                 android:textStyle="bold"
                 android:textColor = "@color/wpurple"
                 android:text="Programming-1036"/>
 
-            <TextView
-                android:id="@+id/markView"
-                android:background= "@drawable/markborder"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/courseView"
-                android:gravity="center"
-                android:textSize = "45sp"
+                android:id="@+id/outlineView"
+                android:src="@drawable/markborder"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/markView"
+                android:layout_below="@id/courseView"
+                android:paddingLeft="8sp"
+                android:paddingRight="8sp"
+                android:gravity="center_vertical"
                 android:textStyle="bold"
-                android:textColor="@color/wpurple"
-                android:text="99%" />
+                android:textSize="30dp"
+                android:text="99%"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/seperator"
+                android:layout_below="@id/courseView"
+                android:layout_toRightOf="@id/markView"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#bdbdbd" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_toEndOf="@+id/markView"
                 android:layout_below="@+id/courseView"
-                android:paddingTop="8sp"
+                android:layout_toRightOf="@id/seperator"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
                 android:paddingStart="8sp">
 
                 <TextView
@@ -58,6 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
+                    android:paddingTop="2sp"
                     android:textDirection="rtl"
                     android:textSize = "14sp"
                     android:textColor = "@android:color/black"
@@ -86,16 +113,6 @@
                     android:text="Quiz Lit af: 99%" />
 
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/more"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="end|bottom"
-                android:textSize = "14sp"
-                android:textColor = "@color/wpurple"
-                android:textStyle="bold"
-                android:text="More..." />
 
         </RelativeLayout>
 
