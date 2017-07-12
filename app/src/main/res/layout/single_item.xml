@@ -16,6 +16,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         app:cardElevation="8dp"
         app:cardBackgroundColor="@color/white"
+        app:srcCompat="@drawable/ic_western_owl"
         app:contentPadding="10dp">
 
         <RelativeLayout
@@ -27,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/creatorView"
                 android:textSize="12sp"
+                android:textAllCaps="true"
                 android:text="XXXTENTACION"
                 android:maxLines="1"/>
 
@@ -36,83 +38,85 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/creatorView"
                 android:maxLines="1"
-                android:textSize = "22sp"
+                android:textSize = "18sp"
                 android:textStyle="bold"
                 android:textColor = "@color/wpurple"
+                android:textAllCaps="true"
                 android:text="Programming-1036"/>
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/courseView"
-                android:id="@+id/outlineView"
-                android:src="@drawable/markborder"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/markView"
-                android:layout_below="@id/courseView"
-                android:paddingLeft="8sp"
-                android:paddingRight="8sp"
-                android:gravity="center_vertical"
-                android:textStyle="bold"
-                android:textSize="30dp"
-                android:text="99%"/>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="fill_parent"
-                android:id="@+id/seperator"
-                android:layout_below="@id/courseView"
-                android:layout_toRightOf="@id/markView"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="#bdbdbd" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/courseView"
-                android:layout_toRightOf="@id/seperator"
-                android:orientation="vertical"
-                android:gravity="center_vertical"
-                android:paddingStart="8sp">
+                android:gravity="center">
 
                 <TextView
-                    android:id="@+id/assignment1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingTop="2sp"
-                    android:textDirection="rtl"
-                    android:textSize = "14sp"
-                    android:textColor = "@android:color/black"
-                    android:text="Final Exam Lit af: 99%" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/markView"
+                    android:paddingLeft="8sp"
+                    android:paddingRight="8sp"
+                    android:gravity="center_vertical"
+                    android:textColor="#212121"
+                    android:textStyle="bold"
+                    android:textSize="30dp"
+                    android:text="99%"/>
 
-                <TextView
-                    android:id="@+id/assignment2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingTop="2sp"
-                    android:textDirection="rtl"
-                    android:textSize = "14sp"
-                    android:textColor = "@android:color/black"
-                    android:text="Midterm Exam Lit af: 99%" />
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/seperator"
+                    android:layout_toEndOf="@id/markView"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/wpurple" />
 
-                <TextView
-                    android:id="@+id/assignment3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingTop="2sp"
-                    android:textDirection="rtl"
-                    android:textSize = "14sp"
-                    android:textColor = "@android:color/black"
-                    android:text="Quiz Lit af: 99%" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/detailView"
+                    android:layout_toEndOf="@id/seperator"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="8sp"
+                    android:paddingEnd="8sp">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/assignment1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:paddingTop="2sp"
+                        android:textDirection="rtl"
+                        android:textSize = "14sp"
+                        android:textColor="#424242"
+                        android:text="Final Exam Lit af: 99%" />
+
+                    <TextView
+                        android:id="@+id/assignment2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:paddingTop="2sp"
+                        android:textDirection="rtl"
+                        android:textSize = "14sp"
+                        android:textColor="#424242"
+                        android:text="Midterm Exam Lit af: 99%" />
+
+                    <TextView
+                        android:id="@+id/assignment3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:paddingTop="2sp"
+                        android:textDirection="rtl"
+                        android:textColor="#424242"
+                        android:textSize = "14sp"
+                        android:text="Quiz Lit af: 99%" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
