@@ -21,6 +21,7 @@ import org.jsoup.select.Elements;
 import java.util.Map;
 
 import static android.R.attr.name;
+import static android.R.id.list;
 import static java.security.AccessController.getContext;
 
 
@@ -60,6 +61,9 @@ public class CourseEntry extends AsyncTask<Void,Void,User>  {
 
             // Connects to Full Course List.
             Document listofCourses = Jsoup.connect(coursesURL).cookies(cookies).get();
+
+
+
             Elements course_lists = listofCourses.select("h4 > a[href]");
 
             // Checks through all rows to find things that are actually courses (goes through all courses).
@@ -127,6 +131,22 @@ public class CourseEntry extends AsyncTask<Void,Void,User>  {
             Log.d("UNPARSED: ", "User_name after selection: " + user_nameunparsed);
 
             String user_name = user_nameunparsed.substring(user_nameunparsed.indexOf("for")+4);
+
+            Elements teacher_names = listofCourses.select("tr");
+            //Elements teacher_names = listofCourses.select("td[headers='createdBy']");
+
+            int course = 0;
+
+            for(int i=1; i<teacher_names.size();i++){
+                Element teacher_name = teacher_names.get(i);
+                if(teacher_name.getElementsByAttributeValue("headers","type").html().contains("course")){
+                    String teacher = teacher_name.getElementsByAttributeValue("headers","createdBy").html();
+                    currUser.getCourse(course).setTeacher(teacher);
+                    course++;
+                }
+
+            }
+
             currUser.setName(user_name);
 
             databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currUser.getId());

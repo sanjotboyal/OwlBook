@@ -13,9 +13,7 @@ import java.util.Map;
 public class Course implements Parcelable {
     private String name;
     private String section;
-
-
-
+    private String teacher;
     private String base_url;
     private String gradebook_URL;
     private String currAverage;
@@ -65,6 +63,14 @@ public class Course implements Parcelable {
         this.currAverage = currAverage;
     }
 
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
+    }
+
     public void addAssignment(String Assignment, String Grade) {
         Assignments.put(Assignment,Grade);
     }
@@ -88,6 +94,7 @@ public class Course implements Parcelable {
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(name);
+        out.writeString(teacher);
         out.writeString(section);
         out.writeString(base_url);
         out.writeString(gradebook_URL);
@@ -97,6 +104,7 @@ public class Course implements Parcelable {
 
     private Course(Parcel in) {
         this.name=in.readString();
+        this.teacher = in.readString();
         this.section = in.readString();
         this.base_url = in.readString();
         this.gradebook_URL = in.readString();
