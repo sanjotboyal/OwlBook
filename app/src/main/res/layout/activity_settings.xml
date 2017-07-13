@@ -24,18 +24,17 @@
         android:text="Enter Course Grading Breakdown " />
 
     <Spinner
-        android:id="@+id/courses"
+        android:id="@+id/coursesView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below  = "@id/Info"
-        android:padding = "10dp"/>
+        android:layout_below  = "@id/Info" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/breakdown"
         android:orientation="vertical"
-        android:layout_below="@id/courses"
+        android:layout_below="@id/coursesView"
         android:paddingStart="50dp"
         android:paddingEnd="30dp">
 

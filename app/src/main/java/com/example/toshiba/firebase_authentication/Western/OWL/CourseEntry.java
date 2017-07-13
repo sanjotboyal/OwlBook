@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.toshiba.firebase_authentication.SettingsActivity;
 import com.example.toshiba.firebase_authentication.Western.Course;
 import com.example.toshiba.firebase_authentication.Western.User;
 import com.example.toshiba.firebase_authentication.homeActivityWithMenu;
@@ -167,7 +168,8 @@ public class CourseEntry extends AsyncTask<Void,Void,User>  {
     @Override
     protected void onPostExecute(User u) {
         super.onPostExecute(u);
-        intent = new Intent(ctx, homeActivityWithMenu.class);
+        //intent = new Intent(ctx, homeActivityWithMenu.class);
+        intent = new Intent(ctx, SettingsActivity.class);
         Log.d("onPostExecute", "user id is: " + u.getId());
         intent.putExtra("CURRENT_USER", u);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

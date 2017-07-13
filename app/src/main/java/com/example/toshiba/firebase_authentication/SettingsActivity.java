@@ -4,12 +4,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.example.toshiba.firebase_authentication.Western.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,22 +22,46 @@ import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private Bundle bundle;
     private EditText Quiz_value;
     private EditText Labs_value;
     private EditText Midterm_value;
     private EditText FinalExam_value;
+    private User currUser;
 
-    private List<EditText> allEds = new ArrayList<EditText>();
+    private Button AddCriteria;
+    private Button Save;
+
+
+    private Spinner spinner;
+    private ArrayList<String> courses = new ArrayList<>();
+
+    private List<EditText> allEds = new ArrayList<>();
     EditText ed;
     EditText edval;
     ScrollView scrollLayout;
 
-    private Button AddCriteria;
-    private Button Save;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        if (savedInstanceState == null) {
+            bundle = getIntent().getExtras();
+            currUser = (User)bundle.get("CURRENT_USER");
+            Log.d("homeActivityWithMenu", "user id:" + currUser.getId());
+        }
+
+        spinner = (Spinner) findViewById(R.id.coursesView);
+
+        for(int i=0; i<currUser.getUserCourseList().size();i++){
+            courses.add(currUser.getUserCourseList().get(i).getname());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,courses);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         scrollLayout = (ScrollView) findViewById(R.id.scroll);
 
@@ -42,14 +71,21 @@ public class SettingsActivity extends AppCompatActivity {
         Midterm_value = (EditText) findViewById(R.id.MidtermValue);
         FinalExam_value = (EditText) findViewById(R.id.FinalExamValue);
 
-
-
         AddCriteria = (Button) findViewById(R.id.addcriteria);
         Save = (Button) findViewById(R.id.save_btn);
 
-        final LinearLayout parent = (LinearLayout) findViewById(R.id.breakdown);
+        Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = spinner.getSelectedItemPosition();
+                Toast.makeText(SettingsActivity.this,"Selected: " + pos, Toast.LENGTH_LONG).show();
+            }
+        });
 
 
+
+
+        final LinearLayout parentView = (LinearLayout) findViewById(R.id.breakdown);
         AddCriteria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +112,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 criteria.addView(edval);
 
-                parent.addView(criteria);
+                parentView.addView(criteria);
 
                 allEds.add(ed);
                 allEds.add(edval);
