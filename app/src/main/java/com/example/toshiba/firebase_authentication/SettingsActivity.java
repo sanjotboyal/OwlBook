@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -53,25 +54,31 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        //get user
         if (savedInstanceState == null) {
             bundle = getIntent().getExtras();
             currUser = (User)bundle.get("CURRENT_USER");
             Log.d("homeActivityWithMenu", "user id:" + currUser.getId());
         }
 
+        //Set Spinner Courses
         spinner = (Spinner) findViewById(R.id.coursesView);
-
         for(int i=0; i<currUser.getUserCourseList().size();i++){
             courses.add(currUser.getUserCourseList().get(i).getname());
         }
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,courses);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
+        //set views (parent and scroll)
+        final LinearLayout parentView = new LinearLayout(SettingsActivity.this);
+        parentView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        parentView.setOrientation(LinearLayout.VERTICAL);
+        parentView.setId(R.id.criteriaView);
+
         scrollLayout = (ScrollView) findViewById(R.id.scroll);
 
-
+        //editText fields
         Quiz_value = (EditText) findViewById(R.id.QuizValue);
         Labs_value = (EditText) findViewById(R.id.LabsValue);
         Midterm_value = (EditText) findViewById(R.id.MidtermValue);
@@ -79,6 +86,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         AddCriteria = (Button) findViewById(R.id.addcriteria);
         Save = (Button) findViewById(R.id.save_btn);
+
+        //NumberPicker
+        final String[]creditvals = {"0.5","1.0","2.0"};
+
 
         Save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +115,14 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 }
                 Toast.makeText(SettingsActivity.this,"Successfully Created Mark Criteria for: " +spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+
                 clearForm((ViewGroup) findViewById(R.id.scroll));
+                if(allEds.size()>0){
+                    ViewGroup viewGroup = (ViewGroup) findViewById(R.id.criteriaView);
+                    viewGroup.removeAllViews();
+                    allEds.clear();
+                }
+
                 spinner.setSelection(pos+1);
                 Toast.makeText(SettingsActivity.this,"Proceed to add criteria for: " +spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
 
@@ -118,13 +136,18 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        final LinearLayout parentView2 = (LinearLayout) findViewById(R.id.breakdown);
 
 
-
-        final LinearLayout parentView = (LinearLayout) findViewById(R.id.breakdown);
         AddCriteria.setOnClickListener(new View.OnClickListener() {
+            int count=0;
             @Override
             public void onClick(View v) {
+                if(findViewById(R.id.criteriaView) != null) {
+                    if (findViewById(R.id.criteriaView).getVisibility() == View.GONE) {
+                        findViewById(R.id.criteriaView).setVisibility(View.VISIBLE);
+                    }
+                }
 
                 LinearLayout criteria = new LinearLayout(SettingsActivity.this);
                 criteria.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -136,6 +159,7 @@ public class SettingsActivity extends AppCompatActivity {
                 ed.setPadding(10,0,10,0);
                 ed.setHint("Enter Criteria");
                 ed.setTextSize(16.0f);
+
                 criteria.addView(ed);
 
                 edval = new EditText(SettingsActivity.this);
@@ -147,12 +171,13 @@ public class SettingsActivity extends AppCompatActivity {
                 edval.setHint("%");
 
                 criteria.addView(edval);
-
                 parentView.addView(criteria);
-
+                count++;
+                if(count ==1) {
+                    parentView2.addView(parentView);
+                }
                 allEds.add(ed);
                 allEds.add(edval);
-
 
                 //button cuts half?????
                 View lastChild = scrollLayout.getChildAt(scrollLayout.getChildCount() - 1);
@@ -170,6 +195,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void clearForm(ViewGroup group)
     {
         for (int i = 0, count = group.getChildCount(); i < count; ++i) {
+
             View view = group.getChildAt(i);
             if (view instanceof EditText) {
                 ((EditText)view).setText("");
@@ -179,5 +205,4 @@ public class SettingsActivity extends AppCompatActivity {
                 clearForm((ViewGroup)view);
         }
     }
-
 }
