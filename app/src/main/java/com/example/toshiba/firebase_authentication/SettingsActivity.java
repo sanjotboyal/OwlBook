@@ -6,6 +6,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,12 @@ import android.widget.Toast;
 import com.example.toshiba.firebase_authentication.Western.User;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import static android.R.attr.key;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -78,7 +84,37 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int pos = spinner.getSelectedItemPosition();
-                Toast.makeText(SettingsActivity.this,"Selected: " + pos, Toast.LENGTH_LONG).show();
+
+                String QuizValue = Quiz_value.getText().toString();
+                currUser.getUserCourseList().get(pos).addCriteria("Quiz",QuizValue);
+
+                String LabsValue = Labs_value.getText().toString();
+                currUser.getUserCourseList().get(pos).addCriteria("Lab",LabsValue);
+
+                String MidtermValue = Midterm_value.getText().toString();
+                currUser.getUserCourseList().get(pos).addCriteria("Midterm",MidtermValue);
+
+                String FinalValue = FinalExam_value.getText().toString();
+                currUser.getUserCourseList().get(pos).addCriteria("Final",FinalValue);
+
+                if(allEds.size()>1){
+                    for(int i =0; i<allEds.size();i++){
+                        currUser.getUserCourseList().get(pos).addCriteria(allEds.get(i).getText().toString(),allEds.get(i+1).getText().toString());
+                        i++;
+                    }
+                }
+                Toast.makeText(SettingsActivity.this,"Successfully Created Mark Criteria for: " +spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+                clearForm((ViewGroup) findViewById(R.id.scroll));
+                spinner.setSelection(pos+1);
+                Toast.makeText(SettingsActivity.this,"Proceed to add criteria for: " +spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+
+              // Iterator myVeryOwnIterator = currUser.getUserCourseList().get(pos).Breakdown.keySet().iterator();
+
+             /*   while(myVeryOwnIterator.hasNext()) {
+                    String key = (String) myVeryOwnIterator.next();
+                    String value = currUser.getUserCourseList().get(pos).Breakdown.get(key);
+                    Toast.makeText(SettingsActivity.this,"key: " + key +" Value: " + value, Toast.LENGTH_LONG).show();
+                }*/
             }
         });
 
@@ -129,8 +165,19 @@ public class SettingsActivity extends AppCompatActivity {
                 scrollLayout.smoothScrollBy(0, delta);
             }
         });
-
-
-
     }
+
+    private void clearForm(ViewGroup group)
+    {
+        for (int i = 0, count = group.getChildCount(); i < count; ++i) {
+            View view = group.getChildAt(i);
+            if (view instanceof EditText) {
+                ((EditText)view).setText("");
+            }
+
+            if(view instanceof ViewGroup && (((ViewGroup)view).getChildCount() > 0))
+                clearForm((ViewGroup)view);
+        }
+    }
+
 }

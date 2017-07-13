@@ -13,12 +13,15 @@ import java.util.Map;
 public class Course implements Parcelable {
     private String name;
     private String section;
+    private int credit;
     private String teacher;
     private String base_url;
     private String gradebook_URL;
     private String currAverage;
 
     public Map<String,String> Assignments = new LinkedHashMap<>();
+    public Map<String,String> Breakdown = new LinkedHashMap<>();
+
 
     public Course(String name, String section,String base_url){
         this.name = name;
@@ -55,6 +58,14 @@ public class Course implements Parcelable {
         this.section = section;
     }
 
+    public int getCredit() {
+        return credit;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
+    }
+
     public String getCurrAverage() {
         return currAverage;
     }
@@ -73,6 +84,10 @@ public class Course implements Parcelable {
 
     public void addAssignment(String Assignment, String Grade) {
         Assignments.put(Assignment,Grade);
+    }
+
+    public void addCriteria(String Criteria,String Value){
+        Breakdown.put(Criteria,Value);
     }
 
     @Override
@@ -100,6 +115,7 @@ public class Course implements Parcelable {
         out.writeString(gradebook_URL);
         out.writeString(currAverage);
         out.writeMap(Assignments);
+        out.writeMap(Breakdown);
     }
 
     private Course(Parcel in) {
@@ -111,5 +127,8 @@ public class Course implements Parcelable {
         this.currAverage = in.readString();
         Assignments = new LinkedHashMap<>();
         in.readMap(Assignments,String.class.getClassLoader());
+
+        Breakdown = new LinkedHashMap<>();
+        in.readMap(Breakdown,String.class.getClassLoader());
     }
 }
