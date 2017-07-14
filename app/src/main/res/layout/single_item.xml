@@ -54,9 +54,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:id="@+id/markView"
-                    android:paddingLeft="8sp"
-                    android:paddingRight="8sp"
-                    android:gravity="center_vertical"
+                    android:paddingEnd="8sp"
+                    android:paddingStart="8sp"
+                    android:gravity="center"
                     android:textColor="#212121"
                     android:textStyle="bold"
                     android:textSize="30dp"
@@ -72,7 +72,7 @@
                     android:background="@color/wpurple" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/detailView"
                     android:layout_toEndOf="@id/seperator"
