@@ -4,7 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import static android.R.attr.key;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
@@ -155,7 +158,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 ed = new EditText(SettingsActivity.this);
                 ed.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT,1.0f));
+                        LinearLayout.LayoutParams.MATCH_PARENT));
                 ed.setPadding(10,0,10,0);
                 ed.setHint("Enter Criteria");
                 ed.setTextSize(16.0f);
@@ -163,12 +166,24 @@ public class SettingsActivity extends AppCompatActivity {
                 criteria.addView(ed);
 
                 edval = new EditText(SettingsActivity.this);
-                edval.setLayoutParams(new LinearLayout.LayoutParams(150,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,1.0f));
+
+                DisplayMetrics metrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(metrics);
+                float logicalDensity = metrics.density;
+
+                Log.d("logicaldensity", "factor is " + logicalDensity);
+
+                int px = (int) Math.ceil(80 * logicalDensity);
+
+                LinearLayout.LayoutParams lllp = new LinearLayout.LayoutParams(px, LinearLayout.LayoutParams.WRAP_CONTENT);
+                edval.setLayoutParams(lllp);
                 edval.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 edval.setInputType(InputType.TYPE_CLASS_NUMBER);
                 edval.setFilters(new InputFilter[] {new InputFilter.LengthFilter(2)});
                 edval.setHint("%");
+                
+                edval.measure(0, 0);
+                Log.d("wtf view", "hello " + edval.getMeasuredWidth());
 
                 criteria.addView(edval);
                 parentView.addView(criteria);
@@ -181,12 +196,13 @@ public class SettingsActivity extends AppCompatActivity {
 
                 //button cuts half?????
                 View lastChild = scrollLayout.getChildAt(scrollLayout.getChildCount() - 1);
-                int bottom = lastChild.getBottom() + scrollLayout.getPaddingBottom();
-                //int sy = scrollLayout.getScrollY();
-                //int sh = scrollLayout.getHeight();
-                //int delta = bottom - (sy + sh);
-                int delta = bottom;
+                int bottom = lastChild.getBottom();
+                int sy = scrollLayout.getScrollY();
+                int sh = scrollLayout.getHeight();
+                int delta = bottom - (sy + sh) ;
 
+
+                //scrollLayout.fullScroll(ScrollView.FOCUS_DOWN);
                 scrollLayout.smoothScrollBy(0, delta);
             }
         });
