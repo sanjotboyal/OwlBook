@@ -13,7 +13,7 @@ import java.util.Map;
 public class Course implements Parcelable {
     private String name;
     private String section;
-    private int credit;
+    private double credit;
     private String teacher;
     private String base_url;
     private String gradebook_URL;
@@ -58,11 +58,11 @@ public class Course implements Parcelable {
         this.section = section;
     }
 
-    public int getCredit() {
+    public double getCredit() {
         return credit;
     }
 
-    public void setCredit(int credit) {
+    public void setCredit(double credit) {
         this.credit = credit;
     }
 

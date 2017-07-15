@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.toshiba.firebase_authentication.SettingsActivity"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:fillViewport="true"
     android:id="@+id/scroll">
 
@@ -42,18 +42,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingStart="40dp">
+            android:paddingStart="40dp"
+            android:paddingEnd = "50dp">
 
             <TextView
                 android:id="@+id/Credit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity = "center_vertical"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="Credit"/>
+                android:text="Credit" />
+
+            <Spinner
+                android:id="@+id/spinner_credit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawSelectorOnTop="true" />
+
 
         </LinearLayout>
 

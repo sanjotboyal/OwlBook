@@ -44,7 +44,10 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     private Spinner spinner;
+    private Spinner spinnerCredit;
     private ArrayList<String> courses = new ArrayList<>();
+
+    private ArrayList<Double> credits = new ArrayList<>();
 
     private List<EditText> allEds = new ArrayList<>();
     EditText ed;
@@ -66,12 +69,19 @@ public class SettingsActivity extends AppCompatActivity {
 
         //Set Spinner Courses
         spinner = (Spinner) findViewById(R.id.coursesView);
-        for(int i=0; i<currUser.getUserCourseList().size();i++){
-            courses.add(currUser.getUserCourseList().get(i).getname());
-        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,courses);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        spinnerCredit = (Spinner) findViewById(R.id.spinner_credit);
+        credits.add(0.5);
+        credits.add(1.0);
+        credits.add(2.0);
+
+        ArrayAdapter<Double> adapter_Credit = new ArrayAdapter<Double>(this,android.R.layout.simple_spinner_item,credits);
+        adapter_Credit.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCredit.setAdapter(adapter);
 
         //set views (parent and scroll)
         final LinearLayout parentView = new LinearLayout(SettingsActivity.this);
@@ -98,6 +108,9 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int pos = spinner.getSelectedItemPosition();
+                double credit = (double)spinner.getSelectedItem();
+
+                currUser.getUserCourseList().get(pos).setCredit(credit);
 
                 String QuizValue = Quiz_value.getText().toString();
                 currUser.getUserCourseList().get(pos).addCriteria("Quiz",QuizValue);
@@ -118,6 +131,8 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 }
                 Toast.makeText(SettingsActivity.this,"Successfully Created Mark Criteria for: " +spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+
+                Toast.makeText(SettingsActivity.this,"CREDIT FOR : " +spinner.getSelectedItem().toString() + "IS: " + currUser.getUserCourseList().get(pos).getCredit(), Toast.LENGTH_LONG).show();
 
                 clearForm((ViewGroup) findViewById(R.id.scroll));
                 if(allEds.size()>0){
