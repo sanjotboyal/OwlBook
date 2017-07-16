@@ -33,6 +33,7 @@ public class CourseEntry extends AsyncTask<Void,Void,User>  {
     private DatabaseReference databaseReference;
     private Intent intent;
     private Context ctx;
+
     public CourseEntry(User user, Context ctx) {
         this.currUser = user;
         this.ctx = ctx;

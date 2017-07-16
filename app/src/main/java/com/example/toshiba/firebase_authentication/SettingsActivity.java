@@ -18,6 +18,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.toshiba.firebase_authentication.Western.OWL.AverageCalculation;
 import com.example.toshiba.firebase_authentication.Western.User;
 
 import java.util.ArrayList;
@@ -45,8 +46,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Spinner spinner;
     private Spinner spinnerCredit;
-    private ArrayList<String> courses = new ArrayList<>();
 
+    private ArrayList<String> courses = new ArrayList<>();
     private ArrayList<Double> credits = new ArrayList<>();
 
     private List<EditText> allEds = new ArrayList<>();
@@ -63,8 +64,12 @@ public class SettingsActivity extends AppCompatActivity {
         //get user
         if (savedInstanceState == null) {
             bundle = getIntent().getExtras();
-            currUser = (User)bundle.get("CURRENT_USER");
+            currUser = (User) bundle.get("CURRENT_USER");
             Log.d("homeActivityWithMenu", "user id:" + currUser.getId());
+        }
+
+        for(int i=0; i<currUser.getUserCourseList().size();i++){
+            courses.add(currUser.getUserCourseList().get(i).getname());
         }
 
         //Set Spinner Courses
@@ -81,7 +86,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         ArrayAdapter<Double> adapter_Credit = new ArrayAdapter<Double>(this,android.R.layout.simple_spinner_item,credits);
         adapter_Credit.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCredit.setAdapter(adapter);
+        spinnerCredit.setAdapter(adapter_Credit);
 
         //set views (parent and scroll)
         final LinearLayout parentView = new LinearLayout(SettingsActivity.this);
@@ -100,15 +105,11 @@ public class SettingsActivity extends AppCompatActivity {
         AddCriteria = (Button) findViewById(R.id.addcriteria);
         Save = (Button) findViewById(R.id.save_btn);
 
-        //NumberPicker
-        final String[]creditvals = {"0.5","1.0","2.0"};
-
-
         Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int pos = spinner.getSelectedItemPosition();
-                double credit = (double)spinner.getSelectedItem();
+                double credit = Double.parseDouble(spinnerCredit.getSelectedItem().toString());
 
                 currUser.getUserCourseList().get(pos).setCredit(credit);
 
@@ -130,9 +131,10 @@ public class SettingsActivity extends AppCompatActivity {
                         i++;
                     }
                 }
-                Toast.makeText(SettingsActivity.this,"Successfully Created Mark Criteria for: " +spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
 
-                Toast.makeText(SettingsActivity.this,"CREDIT FOR : " +spinner.getSelectedItem().toString() + "IS: " + currUser.getUserCourseList().get(pos).getCredit(), Toast.LENGTH_LONG).show();
+                new AverageCalculation(currUser.getUserCourseList().get(pos),SettingsActivity.this).execute();
+
+                Toast.makeText(SettingsActivity.this,"Successfully Created Mark Criteria for: " +spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
 
                 clearForm((ViewGroup) findViewById(R.id.scroll));
                 if(allEds.size()>0){
@@ -141,9 +143,15 @@ public class SettingsActivity extends AppCompatActivity {
                     allEds.clear();
                 }
 
-                spinner.setSelection(pos+1);
-                Toast.makeText(SettingsActivity.this,"Proceed to add criteria for: " +spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
-
+                if(pos == currUser.getUserCourseList().size()-1){
+                    //Build object again from firebase
+                    //send bundle with intent to homepage which will update current averages
+                    //maybe left as filler if background task isnt complete
+                }
+                else {
+                    spinner.setSelection(pos + 1);
+                    Toast.makeText(SettingsActivity.this, "Proceed to add criteria for: " + spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+                }
               // Iterator myVeryOwnIterator = currUser.getUserCourseList().get(pos).Breakdown.keySet().iterator();
 
              /*   while(myVeryOwnIterator.hasNext()) {
