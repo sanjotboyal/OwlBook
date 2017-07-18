@@ -29,6 +29,7 @@ import java.util.StringTokenizer;
 
 import static android.R.attr.key;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import static com.example.toshiba.firebase_authentication.R.id.Quiz;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -114,16 +115,25 @@ public class SettingsActivity extends AppCompatActivity {
                 currUser.getUserCourseList().get(pos).setCredit(credit);
 
                 String QuizValue = Quiz_value.getText().toString();
-                currUser.getUserCourseList().get(pos).addCriteria("Quiz",QuizValue);
+                if(!QuizValue.equals("") || !QuizValue.equals("0")){
+                    currUser.getUserCourseList().get(pos).addCriteria("Quiz",QuizValue);
+                }
 
                 String LabsValue = Labs_value.getText().toString();
-                currUser.getUserCourseList().get(pos).addCriteria("Lab",LabsValue);
+                if(!LabsValue.equals("") || !LabsValue.equals("0")){
+                    currUser.getUserCourseList().get(pos).addCriteria("Lab",LabsValue);
+                }
 
                 String MidtermValue = Midterm_value.getText().toString();
-                currUser.getUserCourseList().get(pos).addCriteria("Midterm",MidtermValue);
+                if(!MidtermValue.equals("") || !MidtermValue.equals("0")){
+                    currUser.getUserCourseList().get(pos).addCriteria("Midterm",MidtermValue);
+                }
 
                 String FinalValue = FinalExam_value.getText().toString();
-                currUser.getUserCourseList().get(pos).addCriteria("Final",FinalValue);
+                if(!FinalValue.equals("") || !FinalValue.equals("0")){
+                    currUser.getUserCourseList().get(pos).addCriteria("Final",FinalValue);
+                }
+
 
                 if(allEds.size()>1){
                     for(int i =0; i<allEds.size();i++){
@@ -132,9 +142,10 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 }
 
-                new AverageCalculation(currUser.getUserCourseList().get(pos),SettingsActivity.this).execute();
+                new AverageCalculation(currUser.getUserCourseList().get(pos)).execute();
 
                 Toast.makeText(SettingsActivity.this,"Successfully Created Mark Criteria for: " +spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(SettingsActivity.this,"Hashmap test" + currUser.getUserCourseList().get(pos).Assignments.get("A1"), Toast.LENGTH_LONG).show();
 
                 clearForm((ViewGroup) findViewById(R.id.scroll));
                 if(allEds.size()>0){
