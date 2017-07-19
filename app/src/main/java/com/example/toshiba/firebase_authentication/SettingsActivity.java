@@ -115,22 +115,22 @@ public class SettingsActivity extends AppCompatActivity {
                 currUser.getUserCourseList().get(pos).setCredit(credit);
 
                 String QuizValue = Quiz_value.getText().toString();
-                if(!QuizValue.equals("") || !QuizValue.equals("0")){
+                if(!(QuizValue.equals("") || QuizValue.equals("0"))){
                     currUser.getUserCourseList().get(pos).addCriteria("Quiz",QuizValue);
                 }
 
                 String LabsValue = Labs_value.getText().toString();
-                if(!LabsValue.equals("") || !LabsValue.equals("0")){
+                if(!(LabsValue.equals("") || !LabsValue.equals("0"))){
                     currUser.getUserCourseList().get(pos).addCriteria("Lab",LabsValue);
                 }
 
                 String MidtermValue = Midterm_value.getText().toString();
-                if(!MidtermValue.equals("") || !MidtermValue.equals("0")){
+                if(!(MidtermValue.equals("") || !MidtermValue.equals("0"))){
                     currUser.getUserCourseList().get(pos).addCriteria("Midterm",MidtermValue);
                 }
 
                 String FinalValue = FinalExam_value.getText().toString();
-                if(!FinalValue.equals("") || !FinalValue.equals("0")){
+                if(!(FinalValue.equals("") || !FinalValue.equals("0"))){
                     currUser.getUserCourseList().get(pos).addCriteria("Final",FinalValue);
                 }
 
@@ -142,7 +142,17 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 }
 
+                Iterator myVeryOwnIterator = currUser.getUserCourseList().get(pos).Breakdown.keySet().iterator();
+                while(myVeryOwnIterator.hasNext()) {
+                    String key = (String) myVeryOwnIterator.next();
+                    String value = currUser.getUserCourseList().get(pos).Breakdown.get(key);
+                    Log.d("Breakdown: " + key, "value is: " + value);
+                }
+
                 new AverageCalculation(currUser.getUserCourseList().get(pos)).execute();
+
+
+
 
                 Toast.makeText(SettingsActivity.this,"Successfully Created Mark Criteria for: " +spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
                 //Toast.makeText(SettingsActivity.this,"Hashmap test" + currUser.getUserCourseList().get(pos).Assignments.get("A1"), Toast.LENGTH_LONG).show();
