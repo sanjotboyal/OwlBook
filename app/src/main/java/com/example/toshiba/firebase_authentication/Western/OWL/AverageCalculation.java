@@ -9,12 +9,15 @@ import com.example.toshiba.firebase_authentication.Western.Course;
 import com.example.toshiba.firebase_authentication.Western.User;
 import com.google.firebase.database.DatabaseReference;
 
+import org.apache.commons.lang3.math.Fraction;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import static android.R.attr.value;
 import static android.R.id.list;
+import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by Toshiba on 2017-07-15.
@@ -40,6 +43,7 @@ public class AverageCalculation extends AsyncTask<Void,Void,Void> {
         ArrayList<String> temps = new ArrayList<>();
 
         for(int i=0; i<currCourse.Assignments.size();i++){
+
             Iterator iterator = currCourse.Breakdown.keySet().iterator();
 
             while(iterator.hasNext()){
@@ -60,42 +64,53 @@ public class AverageCalculation extends AsyncTask<Void,Void,Void> {
                         listofGrades.put(check.toUpperCase(),temps);
                         temps = new ArrayList<>();
                     }
-
-                   /* if(listofGrades.containsKey(check.toUpperCase())){
-                        Log.d("FOUND: " +check, "Value is: " + listofGrades.get(check.toUpperCase()).get(0) + ": size: " + listofGrades.size());
-                        ArrayList<String> temp = listofGrades.get(check.toUpperCase());
-                        temp.add((currCourse.Assignments.get("A"+i)));
-                        Log.d("Adding: " + currCourse.Assignments.get("A"+i) , "Temp size: " + temp.size());
-
-                        listofGrades.put(check.toUpperCase(),temp);
-                       // Log.d("Found Type: " + check, "Assignment was: " + temp.get(0));
-                        temp.clear();
-                    }else {*/
-                       // Log.d("Found Type: " + check, "Assignment was: " + temps.get(0));
-                        //temps.clear();
-
-                   // }
                 }
                 Log.d("AFTER LOOP:", "BOOLEAN UNCAT : " + uncategorized);
             }if(uncategorized){
                     othergrades.add(currCourse.Assignments.get("A"+i));
-                    listofGrades.put("Uncategorized",othergrades);
+                    listofGrades.put("UNCATEGORIZED",othergrades);
             }
         }
 
         Iterator myVeryOwnIterator = listofGrades.keySet().iterator();
+
+        double overallSum = 0;
+        double perfectSum = 0;
         while(myVeryOwnIterator.hasNext()) {
             String key = (String) myVeryOwnIterator.next();
+            double markAve = 0;
             for(int i= 0; i<listofGrades.get(key).size();i++){
+
                 String value = listofGrades.get(key).get(i);
-                Log.d("Linked List: " + key + ":" + i, "value is: " + value);
+                Log.d("BEFORE WE PARSE WE GOT:", "ASSIGNMENT: " + value);
+
+                try{
+                Fraction MarkFraction = Fraction.getFraction(value.substring(value.indexOf(":")+1));
+                Double Mark = MarkFraction.doubleValue();
+                Log.d("LETS SEE:", "MARK : " + Mark);
+                markAve += (Mark*100);
+
+                } catch (Exception e){
+                    String mark = value.substring(value.indexOf((":")+1));
+                    double numerator = Double.parseDouble(mark.substring(0,mark.indexOf("/")));
+                    double denominator = Double.parseDouble(mark.substring(mark.indexOf("/")+1));
+                    double Mark = numerator/denominator;
+                    Log.d("LETS SEE:", "MARK : " + Mark);
+                    markAve += (Mark*100);
+                }
+            }
+            double criteriaAve = (markAve/listofGrades.get(key).size());
+            Log.d("Average of :" + key, "Average: " + criteriaAve);
+
+            if(!(key.contains("UNCATEGORIZED"))) {
+                Log.d("KEY: " + key, "value is: " + currCourse.Breakdown.get(key.toUpperCase()));
+                double weightedAve = criteriaAve * ((Double.parseDouble(currCourse.Breakdown.get(key.toUpperCase())))/100);
+                perfectSum += Double.parseDouble(currCourse.Breakdown.get(key.toUpperCase()));
+                overallSum += weightedAve;
             }
         }
-
-        //apply value of such key to the mark value of grade hashmap
-
-        //get average of course overall
-        //set to course value
+        double currAverage = (overallSum/perfectSum)*100;
+        Log.d("YOUR AVERAGE :", "AVERAGE IS : " + currAverage);
 
         //update that branch of firebase
 

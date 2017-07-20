@@ -114,7 +114,11 @@ public class CourseEntry extends AsyncTask<Void,Void,User>  {
                         String Assign = assignment.getElementsByClass("left").html();
                         Log.d("[GRADE-ENTRY ","NAME OF ASSIGNMENT: " + Assign);
 
+                        Assign = Assign.replace(":"," ");
+
                         String Mark = assignment.getElementsByClass("center").get(1).text();
+                        Mark = Mark.replace("(","");
+                        Mark = Mark.replace(")","");
                         Log.d("[GRADE-ENTRY ","MARK: " + Mark);
 
                         ListCourses.addAssignment("A"+i,Assign + ":" + Mark);

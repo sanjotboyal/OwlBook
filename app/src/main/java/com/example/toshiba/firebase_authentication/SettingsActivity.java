@@ -116,28 +116,28 @@ public class SettingsActivity extends AppCompatActivity {
 
                 String QuizValue = Quiz_value.getText().toString();
                 if(!(QuizValue.equals("") || QuizValue.equals("0"))){
-                    currUser.getUserCourseList().get(pos).addCriteria("Quiz",QuizValue);
+                    currUser.getUserCourseList().get(pos).addCriteria("QUIZ",QuizValue);
                 }
 
                 String LabsValue = Labs_value.getText().toString();
-                if(!(LabsValue.equals("") || !LabsValue.equals("0"))){
-                    currUser.getUserCourseList().get(pos).addCriteria("Lab",LabsValue);
+                if(!(LabsValue.equals("") || LabsValue.equals("0"))){
+                    currUser.getUserCourseList().get(pos).addCriteria("LAB",LabsValue);
                 }
 
                 String MidtermValue = Midterm_value.getText().toString();
-                if(!(MidtermValue.equals("") || !MidtermValue.equals("0"))){
-                    currUser.getUserCourseList().get(pos).addCriteria("Midterm",MidtermValue);
+                if(!(MidtermValue.equals("") || MidtermValue.equals("0"))){
+                    currUser.getUserCourseList().get(pos).addCriteria("MIDTERM",MidtermValue);
                 }
 
                 String FinalValue = FinalExam_value.getText().toString();
-                if(!(FinalValue.equals("") || !FinalValue.equals("0"))){
-                    currUser.getUserCourseList().get(pos).addCriteria("Final",FinalValue);
+                if(!(FinalValue.equals("") || FinalValue.equals("0"))){
+                    currUser.getUserCourseList().get(pos).addCriteria("FINAL EXAM",FinalValue);
                 }
 
 
                 if(allEds.size()>1){
                     for(int i =0; i<allEds.size();i++){
-                        currUser.getUserCourseList().get(pos).addCriteria(allEds.get(i).getText().toString(),allEds.get(i+1).getText().toString());
+                        currUser.getUserCourseList().get(pos).addCriteria(allEds.get(i).getText().toString().toUpperCase(),allEds.get(i+1).getText().toString());
                         i++;
                     }
                 }
