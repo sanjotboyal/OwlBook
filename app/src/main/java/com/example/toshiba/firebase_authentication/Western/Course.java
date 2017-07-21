@@ -3,6 +3,7 @@ package com.example.toshiba.firebase_authentication.Western;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -17,10 +18,11 @@ public class Course implements Parcelable {
     private String teacher;
     private String base_url;
     private String gradebook_URL;
-    private String currAverage;
+    private double currAverage;
 
     public Map<String,String> Assignments = new LinkedHashMap<>();
     public Map<String,String> Breakdown = new LinkedHashMap<>();
+    public LinkedHashMap<String,ArrayList<String>>  listofGrades= new LinkedHashMap<>();
 
 
     public Course(String name, String section,String base_url){
@@ -28,7 +30,7 @@ public class Course implements Parcelable {
         this.section = section;
         this.base_url = base_url;
         this.gradebook_URL = "";
-        this.currAverage = "0%";
+        this.currAverage = 0;
     }
 
     public Course() {
@@ -66,11 +68,11 @@ public class Course implements Parcelable {
         this.credit = credit;
     }
 
-    public String getCurrAverage() {
+    public double getCurrAverage() {
         return currAverage;
     }
 
-    public void setCurrAverage(String currAverage) {
+    public void setCurrAverage(double currAverage) {
         this.currAverage = currAverage;
     }
 
@@ -88,6 +90,10 @@ public class Course implements Parcelable {
 
     public void addCriteria(String Criteria,String Value){
         Breakdown.put(Criteria,Value);
+    }
+
+    public void addCategoryAssignments(String Type, ArrayList<String> Assignments){
+        listofGrades.put(Type,Assignments);
     }
 
     @Override
@@ -113,9 +119,11 @@ public class Course implements Parcelable {
         out.writeString(section);
         out.writeString(base_url);
         out.writeString(gradebook_URL);
-        out.writeString(currAverage);
+        out.writeDouble(currAverage);
+        out.writeDouble(credit);
         out.writeMap(Assignments);
         out.writeMap(Breakdown);
+        out.writeMap(listofGrades);
     }
 
     private Course(Parcel in) {
@@ -124,11 +132,17 @@ public class Course implements Parcelable {
         this.section = in.readString();
         this.base_url = in.readString();
         this.gradebook_URL = in.readString();
-        this.currAverage = in.readString();
+        this.currAverage = in.readDouble();
+        this.credit = in.readDouble();
+
         Assignments = new LinkedHashMap<>();
         in.readMap(Assignments,String.class.getClassLoader());
 
         Breakdown = new LinkedHashMap<>();
         in.readMap(Breakdown,String.class.getClassLoader());
+
+        listofGrades = new LinkedHashMap<>();
+        in.readMap(Breakdown,String.class.getClassLoader());
+
     }
 }

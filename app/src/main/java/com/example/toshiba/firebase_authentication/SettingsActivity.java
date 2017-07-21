@@ -149,9 +149,7 @@ public class SettingsActivity extends AppCompatActivity {
                     Log.d("Breakdown: " + key, "value is: " + value);
                 }
 
-                new AverageCalculation(currUser.getUserCourseList().get(pos)).execute();
-
-
+                new AverageCalculation(currUser.getUserCourseList().get(pos),currUser.getId(),pos).execute();
 
 
                 Toast.makeText(SettingsActivity.this,"Successfully Created Mark Criteria for: " +spinner.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
