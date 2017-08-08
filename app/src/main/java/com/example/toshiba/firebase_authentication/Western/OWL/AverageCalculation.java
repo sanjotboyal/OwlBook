@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import static android.R.attr.data;
+import static android.R.attr.key;
 import static android.R.attr.value;
 import static android.R.id.list;
 import static android.os.Build.VERSION_CODES.M;
@@ -98,18 +99,14 @@ public class AverageCalculation extends AsyncTask<Void,Void,Void> {
                 markAve += (Mark*100);
 
                 } catch (Exception e){
-                    try {
-                        String mark = value.substring(value.indexOf((":") + 1));
-                        double numerator = Double.parseDouble(mark.substring(0, mark.indexOf("/")));
-                        double denominator = Double.parseDouble(mark.substring(mark.indexOf("/") + 1));
-                        double Mark = numerator / denominator;
-                        Log.d("LETS SEE:", "MARK : " + Mark);
-                        markAve += (Mark * 100);
-                    }catch (Exception f){
-                        Log.d("WHY ARE U LYING", "EXCEPTION BS: " +f.toString());
-                        markAve += 0;
-                    }
+                    Log.d("EXCEPTION THO: ", "HERE: " +e.toString());
 
+                    String mark = value.substring(value.indexOf((":") + 1));
+                    double numerator = Double.parseDouble(mark.substring(0, mark.indexOf("/")));
+                    double denominator = Double.parseDouble(mark.substring(mark.indexOf("/") + 1));
+                    double Mark = numerator / denominator;
+                    Log.d("LETS SEE:", "MARK : " + Mark);
+                    markAve += (Mark * 100);
                 }
             }
             double criteriaAve = (markAve/currCourse.listofGrades.get(key).size());
