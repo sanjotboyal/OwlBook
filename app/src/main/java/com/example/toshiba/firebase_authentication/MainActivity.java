@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
    // private ProgressDialog progressDialog;
 
+    //Update project 2018
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
